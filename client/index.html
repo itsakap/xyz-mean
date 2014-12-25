@@ -1,0 +1,100 @@
+<!doctype html>
+<html ng-app="xyz">
+	<head>
+    <title>XYZ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> 
+    <!-- map script was here -->
+    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <!-- foundation was here -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/custom.css">
+    <!-- <link rel="stylesheet" href="css/styles.min.css"> -->
+
+	</head>
+  <body>
+    <div ng-controller="NavbarCtrl">
+      <div id="nav-container" class="fixed">
+        <nav class="top-bar" data-topbar>
+          <ul class="title-area">
+            <li class="name">
+              <h1 class = "topbar-title">xyz</h1>
+            </li>
+            <li id="social">...for the social explorer</li>
+            <li class="toggle-topbar"><a href="">Search</a></li>
+          </ul>
+          <div class="collapse">
+            <section class="top-bar-section">
+              <ul>
+                <!-- Left Nav Section -->
+                <li class="has-form left">
+                  <div id="pac-nest">
+                    <span id="search-box"></span>
+                    <i class="fi-widget"  data-reveal-id="search-settings"></i>
+                    <i class="fi-refresh"></i>
+                    <!-- possibly add more buttons for red/green circles' toggle -->
+                  </div>
+                </li>
+                <!-- Right Nav Section -->
+                <li class = "has-form right">          
+                  <a href="" class= "button btn-instagram">Dashboard</a>
+                </li>
+              </ul>
+            </section>
+          </div>
+        </nav>
+        <div id="tag-partial" style="z-index:1" class="large-12 small-12 columns">
+          <div class="scrollingtext">
+
+          </div>
+        </div>
+
+        <!-- Search Settings modal -->
+        <div id="search-settings" class="reveal-modal medium">
+          <a class="close-reveal-modal">&#215;</a>
+          <!-- inputs for min_timestamp, max_timestamp, distance go here -->
+          <label>Search for photos uploaded after</label>
+          <input type="datetime-local" x-ng-model="searchOptions.minTimeStamp">
+          <label>and before</label>
+          <input type="datetime-local" x-ng-model="searchOptions.maxTimeStamp">
+          <input type="text" x-ng-model='searchOptions.distance' placeholder="Radius (meters)">
+          <input type="text" x-ng-model="searchOptions.maxResults" placeholder="Max Results (default 100)">
+        </div>
+      </div>
+    </div>
+    <!-- <div ng-controller="TagsCtrl"> -->
+      <!-- tags partial goes here -->
+    <!-- </div> -->
+    <div ng-controller="MapCtrl" style="height:100%">
+      <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" styles="map.styles">
+        <!-- <ui-gmap-search-box parentdiv="'search-box'" template="searchbox.template" position='searchbox.position' events='searchbox.events'> -->
+        <!-- </ui-gmap-search-box> -->
+        <!--<ui-gmap-circle ng-repeat="c in circles track by c.id" center="map.center" stroke="c.stroke" fill="c.fill" radius="c.radius" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable">
+        </ui-gmap-circle>-->
+        <ui-gmap-markers models="posts" coords="'self'" icon="'icon'" idKey="'idKey'" click="'click'">
+          
+        </ui-gmap-markers>
+        <ui-gmap-window
+            coords="currentPost.coords"
+            templateUrl="'info-window.html'"
+            templateParameter="currentPost"
+            closeClick="infoWindow.closeClick"
+            options='infoWindow.options'
+            >
+        </ui-gmap-window>
+      </ui-gmap-google-map>
+    </div>
+    <script src="vendor/angular.js"></script>
+    <script src="vendor/mm-foundation-0.5.1.js"></script>
+		<script src="vendor/angular-route.js"></script>
+		<script src="vendor/angular-messages.js"></script>
+		<script src="vendor/satellizer.js"></script>
+    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+    <script src="vendor/lodash.js"></script>
+    <script src="vendor/angular-google-maps.min.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers/map.js"></script>
+    <script src="controllers/navbar.js"></script>
+	</body>
+</html>

@@ -1,0 +1,30 @@
+@import url(http://fonts.googleapis.com/css?family=Monoton);
+@import url(http://fonts.googleapis.com/css?family=Condiment);
+body{
+  margin:0;
+}
+
+
+
+.angular-google-map-container, .angular-google-map {
+  height:100%;
+  width:100%;
+}
+.angular-google-map-container img {
+  max-width: none;
+}
+
+.top-bar .name h1 {
+    display:inline-block;
+    font-family:Monoton;
+    margin:0;
+    font-size:1.875em;
+    font-weight: normal;
+    color:deeppink;    
+    padding:0 0.5em;
+}
+#social {
+  color: white;
+  display:inline;
+  font-family: Condiment;
+}

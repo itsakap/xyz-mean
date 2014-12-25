@@ -5,7 +5,11 @@ body{
 }
 
 
-
+/*===========================
+|                           |
+|     MAP STYLINGS          |
+|                           |
+=============================*/
 .angular-google-map-container, .angular-google-map {
   height:100%;
   width:100%;
@@ -14,8 +18,12 @@ body{
   max-width: none;
 }
 
+/*===========================
+|                           |
+|     NAVBAR STYLINGS       |
+|                           |
+=============================*/
 .top-bar .name h1 {
-    display:inline-block;
     font-family:Monoton;
     margin:0;
     font-size:1.875em;
@@ -25,6 +33,31 @@ body{
 }
 #social {
   color: white;
-  display:inline;
   font-family: Condiment;
 }
+.name, #social, .icon-holder {
+  display:inline-block;
+}
+.icon-holder{
+  width:35px;
+  height:100%;
+  text-align: center;
+}
+#pac-nest{
+  height:100%;
+}
+.fi-widget, .fi-refresh {
+  cursor:pointer;
+  vertical-align: middle;
+  color:#ccc;
+  transition:font-size 0.5s, color 0.5s;
+  font-size:30px;
+  display:inline-block;
+  height:100%;
+}
+.fi-widget:hover, .fi-refresh:hover {
+  font-size:35px;
+  color:white;
+}
+
+

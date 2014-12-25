@@ -9,20 +9,21 @@
     <!-- foundation was here -->
     <link rel="stylesheet" href="css/normalize.css">
     <link rel="stylesheet" href="css/foundation.css">
+    <link rel="stylesheet" href="css/foundation-icons.css">
     <link rel="stylesheet" href="css/custom.css">
     <!-- <link rel="stylesheet" href="css/styles.min.css"> -->
 
 	</head>
   <body>
-    <div ng-controller="NavbarCtrl">
-      <div id="nav-container" class="fixed">
-        <nav class="top-bar" data-topbar>
+    <div style='z-index:10' ng-controller="NavbarCtrl">
+      <top-bar id="nav-container" class="fixed">
+        <nav>
           <ul class="title-area">
             <li class="name">
               <h1 class = "topbar-title">xyz</h1>
             </li>
             <li id="social">...for the social explorer</li>
-            <li class="toggle-topbar"><a href="">Search</a></li>
+            <li toggle-top-bar><a href="">Search</a></li>
           </ul>
           <div class="collapse">
             <section class="top-bar-section">
@@ -31,8 +32,12 @@
                 <li class="has-form left">
                   <div id="pac-nest">
                     <span id="search-box"></span>
-                    <i class="fi-widget"  data-reveal-id="search-settings"></i>
-                    <i class="fi-refresh"></i>
+                    <span class="icon-holder">
+                      <i class="fi-widget" class="has-tip" tooltip="Search Settings" tooltip-animation="false" tooltip-placement="bottom" data-reveal-id="search-settings"></i>
+                    </span>
+                    <span class="icon-holder">
+                      <i class="fi-refresh" tooltip-placement="bottom" tooltip-popup-delay="0"  tooltip-animation="false" tooltip="Search Here"></i>
+                    </span>
                     <!-- possibly add more buttons for red/green circles' toggle -->
                   </div>
                 </li>
@@ -61,7 +66,7 @@
           <input type="text" x-ng-model='searchOptions.distance' placeholder="Radius (meters)">
           <input type="text" x-ng-model="searchOptions.maxResults" placeholder="Max Results (default 100)">
         </div>
-      </div>
+      </top-bar>
     </div>
     <!-- <div ng-controller="TagsCtrl"> -->
       <!-- tags partial goes here -->
@@ -86,7 +91,7 @@
       </ui-gmap-google-map>
     </div>
     <script src="vendor/angular.js"></script>
-    <script src="vendor/mm-foundation-0.5.1.js"></script>
+    <script src="//pineconellc.github.io/angular-foundation/mm-foundation-tpls-0.5.1.js"></script>
 		<script src="vendor/angular-route.js"></script>
 		<script src="vendor/angular-messages.js"></script>
 		<script src="vendor/satellizer.js"></script>
@@ -95,6 +100,6 @@
     <script src="vendor/angular-google-maps.min.js"></script>
     <script src="app.js"></script>
     <script src="controllers/map.js"></script>
-    <script src="controllers/navbar.js"></script>
+    <script src="controllers/navbar.js"></script>-->
 	</body>
 </html>

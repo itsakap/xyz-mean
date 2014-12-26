@@ -12,43 +12,42 @@
     <link rel="stylesheet" href="css/foundation-icons.css">
     <link rel="stylesheet" href="css/custom.css">
     <!-- <link rel="stylesheet" href="css/styles.min.css"> -->
-
 	</head>
   <body>
     <div style='z-index:10' ng-controller="NavbarCtrl">
       <top-bar id="nav-container" class="fixed">
-        <nav>
-          <ul class="title-area">
-            <li class="name">
-              <h1 class = "topbar-title">xyz</h1>
-            </li>
-            <li id="social">...for the social explorer</li>
-            <li toggle-top-bar><a href="">Search</a></li>
-          </ul>
-          <div class="collapse">
-            <section class="top-bar-section">
-              <ul>
-                <!-- Left Nav Section -->
-                <li class="has-form left">
-                  <div id="pac-nest">
-                    <span id="search-box"></span>
-                    <span class="icon-holder">
-                      <i class="fi-widget" class="has-tip" tooltip="Search Settings" tooltip-animation="false" tooltip-placement="bottom" data-reveal-id="search-settings"></i>
-                    </span>
-                    <span class="icon-holder">
-                      <i class="fi-refresh" tooltip-placement="bottom" tooltip-popup-delay="0"  tooltip-animation="false" tooltip="Search Here"></i>
-                    </span>
-                    <!-- possibly add more buttons for red/green circles' toggle -->
-                  </div>
-                </li>
-                <!-- Right Nav Section -->
-                <li class = "has-form right">          
-                  <a href="" class= "button btn-instagram">Dashboard</a>
-                </li>
-              </ul>
-            </section>
-          </div>
-        </nav>
+
+        <ul class="title-area">
+          <li class="name">
+            <h1 class = "topbar-title">xyz</h1>
+          </li>
+          <li style="display:inline-block"> <span id="social" class="hide-for-small-only">...for the social explorer</span></li>
+          <li toggle-top-bar><a href="">Search</a></li>
+        </ul>
+        <div class="collapse">
+          <section class="top-bar-section">
+            <ul>
+              <!-- Left Nav Section -->
+              <li class="has-form left">
+                <div id="pac-nest">
+                  <span id="search-box">
+                  </span>
+                  <span class="icon-holder">
+                    <i class="fi-widget" class="has-tip" tooltip="Search Settings" tooltip-animation="false" tooltip-placement="bottom" data-reveal-id="search-settings"></i>
+                  </span>
+                  <span class="icon-holder">
+                    <i class="fi-refresh" tooltip-placement="bottom" tooltip-popup-delay="0"  tooltip-animation="false" tooltip="Search Center of Map"></i>
+                  </span>
+                  <!-- possibly add more buttons for red/green circles' toggle -->
+                </div>
+              </li>
+              <!-- Right Nav Section -->
+              <li class = "has-form right">          
+                <a href="" class= "button btn-instagram">Dashboard</a>
+              </li>
+            </ul>
+          </section>
+        </div>
         <div id="tag-partial" style="z-index:1" class="large-12 small-12 columns">
           <div class="scrollingtext">
 
@@ -72,7 +71,13 @@
       <!-- tags partial goes here -->
     <!-- </div> -->
     <div ng-controller="MapCtrl" style="height:100%">
+          <script type="text/ng-template" id="searchbox.tpl.html">
+        <input type="text" placeholder="Location Search" class="controls" id="pac-input">
+    </script>
+
+      
       <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" styles="map.styles">
+        <ui-gmap-search-box parentdiv="'search-box'"template="searchbox.template" events="searchbox.events"></ui-gmap-search-box>
         <!-- <ui-gmap-search-box parentdiv="'search-box'" template="searchbox.template" position='searchbox.position' events='searchbox.events'> -->
         <!-- </ui-gmap-search-box> -->
         <!--<ui-gmap-circle ng-repeat="c in circles track by c.id" center="map.center" stroke="c.stroke" fill="c.fill" radius="c.radius" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable">
@@ -95,9 +100,10 @@
 		<script src="vendor/angular-route.js"></script>
 		<script src="vendor/angular-messages.js"></script>
 		<script src="vendor/satellizer.js"></script>
-    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+    <script src='//maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry,places'></script>
     <script src="vendor/lodash.js"></script>
     <script src="vendor/angular-google-maps.min.js"></script>
+    <script src="vendor/resource.js"></script>
     <script src="app.js"></script>
     <script src="controllers/map.js"></script>
     <script src="controllers/navbar.js"></script>-->

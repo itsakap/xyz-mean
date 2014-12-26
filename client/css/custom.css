@@ -46,6 +46,9 @@ body{
 #pac-nest{
   height:100%;
 }
+#pac-input{
+  border-radius: 5px;
+}
 .fi-widget, .fi-refresh {
   cursor:pointer;
   vertical-align: middle;

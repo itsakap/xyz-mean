@@ -1,6 +1,6 @@
 // map.js
 angular.module('xyz')
-  .controller('MapCtrl', function($scope){
+  .controller('MapCtrl', function($scope, $resource){
     $scope.posts = [];
 
     $scope.searchOptions = {
@@ -46,8 +46,9 @@ angular.module('xyz')
       panControl: false,
       streetViewControl: false
     };
+
     $scope.searchbox = {
-      template:'templates/searchbox.html',
+      template:'searchbox.tpl.html',
       position:'top-left',
       events:{
         places_changed:function(s){

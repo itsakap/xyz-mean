@@ -1,5 +1,5 @@
 // app.js
-angular.module('xyz', ['ngRoute', 'ngMessages', 'satellizer', 'uiGmapgoogle-maps', 'mm.foundation'])
+angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGmapgoogle-maps', 'mm.foundation'])
   .config(function($routeProvider, $authProvider) {
     $routeProvider
       .when('/', {

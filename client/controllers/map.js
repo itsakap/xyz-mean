@@ -2,7 +2,17 @@
 angular.module('xyz')
   .controller('MapCtrl', function($scope, $resource){
     $scope.posts = [];
-    $scope.icon = 'images/marker.png';
+    $scope.icon = {
+      url: 'images/marker.png',
+      // This marker is 20 pixels wide by 32 pixels tall.
+      size: new google.maps.Size(20, 32),
+      // The origin for this image is 0,0.
+      origin: new google.maps.Point(0,0),
+      // The anchor for this image is the base of the flagpole at 0,32.
+      anchor: new google.maps.Point(0, 32),
+      scaledSize: new google.maps.Size(20,20)
+    };
+
     $scope.searchOptions = {
       minTimeStamp: new Date().getDate()-7
     };
@@ -69,6 +79,7 @@ angular.module('xyz')
             body.data.forEach(function(post, index){
               $scope.posts.push({
                 idKey:index,
+                icon:$scope.icon,
                 // must explicitly use 'latitude' and 'longitude' as keys to hook into gmaps
                 latitude:post.location.latitude,
                 longitude:post.location.longitude,

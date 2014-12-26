@@ -200,7 +200,6 @@ app.get('/api/media/search/:lat/:lng', function(req, res) {
                  lat: req.params.lat,
                  lng: req.params.lng };
   request.get({ url: mediaUrl, qs: params, json: true }, function(error, response, body) {
-    console.log(body.data);
     res.send(body);
   })
 })

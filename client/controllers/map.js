@@ -2,7 +2,7 @@
 angular.module('xyz')
   .controller('MapCtrl', function($scope, $resource){
     $scope.posts = [];
-
+    $scope.icon = 'images/marker.png';
     $scope.searchOptions = {
       minTimeStamp: new Date().getDate()-7
     };
@@ -20,7 +20,7 @@ angular.module('xyz')
         },
         zIndex: null,
         closeBoxMargin: "12px 4px 2px 2px",
-        closeBoxUrl: "",
+        closeBoxUrl: "images/exit.png",
         infoBoxClearance: new google.maps.Size(1,1)
       },
       closeClick: function(){
@@ -60,21 +60,18 @@ angular.module('xyz')
           var Search = $resource('http://localhost:3000/api/media/search/'+lat+'/'+lng);
           // going to refactor into its own function that can be called by any of the getters
           Search.get().$promise.then(function(body){
-            console.log(body.data);
             $scope.posts=[];
             // the last post clicked
             $scope.currentPost = {coords:null, mediaLarge:""};
             $scope.map.center={latitude:lat,longitude:lng};
             $scope.map.zoom = 13;
 
-
             body.data.forEach(function(post, index){
-       
               $scope.posts.push({
                 idKey:index,
                 // must explicitly use 'latitude' and 'longitude' as keys to hook into gmaps
-                latitude:post.lat,
-                longitude:post.lng,
+                latitude:post.location.latitude,
+                longitude:post.location.longitude,
                 mediaSmall:post.media_small,
                 mediaLarge:post.media_large,
                 link:post.link,

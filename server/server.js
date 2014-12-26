@@ -193,7 +193,17 @@ app.post('/auth/instagram', function(req, res) {
     }
  });
 });
-
+// other params...
+app.get('/api/media/search/:lat/:lng', function(req, res) {
+  var mediaUrl = 'https://api.instagram.com/v1/media/search';
+  var params = { access_token: process.env.XYZ_INSTAGRAM_ACCESS_TOKEN,
+                 lat: req.params.lat,
+                 lng: req.params.lng };
+  request.get({ url: mediaUrl, qs: params, json: true }, function(error, response, body) {
+    console.log(body.data);
+    res.send(body);
+  })
+})
 app.get('/api/feed', isAuthenticated, function(req, res) {
   var feedUrl = 'https://api.instagram.com/v1/users/self/feed';
   var params = { access_token: req.user.accessToken };

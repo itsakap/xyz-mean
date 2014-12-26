@@ -56,13 +56,11 @@ angular.module('xyz')
               lat = place.lat(),
               lng = place.lng();
           $scope.searchOptions.lat=lat, $scope.searchOptions.lng=lng;
-
-
-
           // The following belongs somewhere else....
-          var Search = $resource('/posts/search.json', $scope.searchOptions);
+          var Search = $resource('http://localhost:3000/api/media/search/'+lat+'/'+lng);
           // going to refactor into its own function that can be called by any of the getters
-          Search.get().$promise.then(function(data){
+          Search.get().$promise.then(function(body){
+            console.log(body.data);
             $scope.posts=[];
             // the last post clicked
             $scope.currentPost = {coords:null, mediaLarge:""};
@@ -70,7 +68,7 @@ angular.module('xyz')
             $scope.map.zoom = 13;
 
 
-            data.posts.forEach(function(post, index){
+            body.data.forEach(function(post, index){
        
               $scope.posts.push({
                 idKey:index,

@@ -30,7 +30,7 @@ angular.module('xyz')
         },
         zIndex: null,
         closeBoxMargin: "12px 4px 2px 2px",
-        closeBoxUrl: "images/exit.png",
+        closeBoxURL: "images/exit.png",
         infoBoxClearance: new google.maps.Size(1,1)
       },
       closeClick: function(){
@@ -75,31 +75,33 @@ angular.module('xyz')
             $scope.currentPost = {coords:null, mediaLarge:""};
             $scope.map.center={latitude:lat,longitude:lng};
             $scope.map.zoom = 13;
-
+            console.log(body.data[0].images);
             body.data.forEach(function(post, index){
-              $scope.posts.push({
-                idKey:index,
-                icon:$scope.icon,
-                // must explicitly use 'latitude' and 'longitude' as keys to hook into gmaps
-                latitude:post.location.latitude,
-                longitude:post.location.longitude,
-                mediaSmall:post.media_small,
-                mediaLarge:post.media_large,
-                link:post.link,
-                click:function(marker, eventName, model){
-                  // on click, toggle visibility of marker's infoWindow
-                  if($scope.currentPost != model){
-                    $scope.currentPost=model;
-                    $scope.currentPost.coords={latitude:model.latitude,
-                    longitude:model.longitude};
+              if(post.type == 'image') {
+                $scope.posts.push({
+                  idKey:index,
+                  icon:$scope.icon,
+                  // must explicitly use 'latitude' and 'longitude' as keys to hook into gmaps
+                  latitude:post.location.latitude,
+                  longitude:post.location.longitude,
+                  mediaSmall:post.images.thumbnail.url,
+                  mediaLarge:post.images.standard_resolution.url,
+                  link:post.link,
+                  click:function(marker, eventName, model){
+                    // on click, toggle visibility of marker's infoWindow
+                    if($scope.currentPost != model){
+                      $scope.currentPost=model;
+                      $scope.currentPost.coords={latitude:model.latitude,
+                      longitude:model.longitude};
 
+                    }
+                    $scope.infoWindow.options.visible = true;
+                    // Dirty fix to foundation not initializing in templateUrl problem.
+                    // info-window.html is added asynchronously to the DOM
+                    // setTimeout(function(){$("#infobox").foundation();},500);
                   }
-                  $scope.infoWindow.options.visible = true;
-                  // Dirty fix to foundation not initializing in templateUrl problem.
-                  // info-window.html is added asynchronously to the DOM
-                  setTimeout(function(){$("#infobox").foundation();},500);
-                }
-              });
+                });
+              }
             });
           // going to refactor into its own function that can be called by any of the getters
           });

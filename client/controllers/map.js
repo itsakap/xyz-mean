@@ -1,6 +1,6 @@
 // map.js
 angular.module('xyz')
-  .controller('MapCtrl', function($scope, $resource){
+  .controller('MapCtrl', function($scope, $resource, searchOptions){
     $scope.posts = [];
     $scope.icon = {
       url: 'images/marker.png',
@@ -16,10 +16,7 @@ angular.module('xyz')
     oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
     var tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
-    $scope.searchOptions = {
-      minTime: oneWeekAgo,
-      maxTime: ""
-    };
+    // $scope.searchOptions=searchOptions;
     $scope.showWindow = false;
     $scope.infoWindow = {
       options: {
@@ -69,9 +66,18 @@ angular.module('xyz')
           var place = s.getPlaces()[0].geometry.location,
               lat = place.lat(),
               lng = place.lng();
-          $scope.searchOptions.lat=lat, $scope.searchOptions.lng=lng;
-          var send = $scope.searchOptions;
-          send.minTime -= 0;
+          // searchOptions.lat=lat, searchOptions.lng=lng;
+          var send = {};
+          for(option in searchOptions){
+            send[option] = searchOptions[option];
+          }
+          send.lat = lat, send.lng = lng;
+          if(send.minTime != undefined) {
+            send.minTime -= 0, send.minTime /= 1000;
+          }
+          if(send.maxTime != undefined) {
+            send.maxTime -= 0, send.maxTime /= 1000;
+          }
           // The following belongs somewhere else....
           var Search = $resource('http://localhost:3000/api/media/search/', send);
           // going to refactor into its own function that can be called by any of the getters

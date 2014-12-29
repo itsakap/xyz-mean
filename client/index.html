@@ -16,26 +16,12 @@
 	</head>
   <body>
     <div style='z-index:10' ng-controller="NavbarCtrl">
-      <script type="text/ng-template" id="xxx.html">
-        <h2>Search Options</h2>
-        <p>
-          <label><b>Search for photos uploaded after</b></label>
-          <quick-datepicker ng-model='searchOptions.minTime'></quick-datepicker>
-        </p>
-        <p>
-          <label><b>and before</b></label>
-          <quick-datepicker ng-model="searchOptions.maxTime"></quick-datepicker>
-        </p>
 
-        <input type="text" x-ng-modal='searchOptions.distance' placeholder="Radius (meters)">
-        <input type="text" x-ng-modal='searchOptions.maxResults' placeholder="Max Results (default 100)">
-        <a class="close-reveal-modal" ng-click="$dismiss()">&#215;</a>
-      </script>
       <top-bar id="nav-container" class="fixed">
 
         <ul class="title-area">
           <li class="name">
-            <h1 class = "topbar-title">xyz</h1>
+            <a href="#"><h1 class = "topbar-title">xyz</h1></a>
           </li>
           <li style="display:inline-block"> <span id="social" class="hide-for-small-only">...for the social explorer</span></li>
           <li toggle-top-bar><a href="">Search</a></li>
@@ -86,9 +72,9 @@
           <a class="close-reveal-modal">&#215;</a>
           <!-- inputs for min_timestamp, max_timestamp, distance go here -->
           <label>Search for photos uploaded after</label>
-          <input type="datetime-local" x-ng-model="searchOptions.minTimeStamp">
+          <input type="datetime-local" x-ng-model="searchOptions.minTime">
           <label>and before</label>
-          <input type="datetime-local" x-ng-model="searchOptions.maxTimeStamp">
+          <input type="datetime-local" x-ng-model="searchOptions.maxTime">
           <input type="text" x-ng-model='searchOptions.distance' placeholder="Radius (meters)">
           <input type="text" x-ng-model="searchOptions.maxResults" placeholder="Max Results (default 100)">
         </div>
@@ -99,8 +85,24 @@
     <!-- </div> -->
     <div ng-controller="MapCtrl" style="height:100%">
           <script type="text/ng-template" id="searchbox.tpl.html">
-        <input type="text" placeholder="Location Search" class="controls" id="pac-input">
-    </script>
+
+            <input type="text" placeholder="Location Search" class="controls" id="pac-input">
+          </script>
+          <script type="text/ng-template" id="xxx.html">
+          <h2>Search Options</h2>
+            <p>
+              <label><b>Search for photos uploaded after</b></label>
+              <quick-datepicker ng-model='searchOptions.minTime'></quick-datepicker>
+            </p>
+            <p>
+              <label><b>and before</b></label>
+              <quick-datepicker ng-model="searchOptions.maxTime"></quick-datepicker>
+            </p>
+
+            <input type="text" x-ng-modal='searchOptions.distance' placeholder="Radius (meters)">
+            <input type="text" x-ng-modal='searchOptions.maxResults' placeholder="Max Results (default 100)">
+            <a class="close-reveal-modal" ng-click="close()">&#215;</a>
+          </script>
 
       <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" styles="map.styles">
         <ui-gmap-search-box parentdiv="'search-box'"template="searchbox.template" events="searchbox.events"></ui-gmap-search-box>
@@ -131,6 +133,7 @@
     <script src="vendor/resource.js"></script>
     <script src="vendor/ng-quick-date.js"></script>
     <script src="app.js"></script>
+    <script src="services/searchOptions.js"></script>
     <script src="controllers/map.js"></script>
     <script src="controllers/navbar.js"></script>
 	</body>

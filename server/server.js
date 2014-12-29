@@ -194,12 +194,18 @@ app.post('/auth/instagram', function(req, res) {
  });
 });
 // other params...
-app.get('/api/media/search/:lat/:lng', function(req, res) {
-  var mediaUrl = 'https://api.instagram.com/v1/media/search';
+app.get('/api/media/search/', function(req, res) {
+  var mediaUrl = 'https://api.instagram.com/v1/media/search/:lat/:lng/:maxTime/:minTime/:maxTime/:dist/:results';
   var params = { access_token: process.env.XYZ_INSTAGRAM_ACCESS_TOKEN,
                  lat: req.params.lat,
-                 lng: req.params.lng };
+                 lng: req.params.lng,
+                 minTime: req.params.minTime,
+                 maxTime: req.params.maxTime,
+                 dist: req.params.dist || 5000,
+                 results: req.params.results || 100 };
+  console.log(req);
   request.get({ url: mediaUrl, qs: params, json: true }, function(error, response, body) {
+    console.log(params);
     res.send(body);
   })
 })

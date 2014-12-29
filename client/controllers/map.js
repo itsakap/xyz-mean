@@ -12,14 +12,18 @@ angular.module('xyz')
       anchor: new google.maps.Point(0, 32),
       scaledSize: new google.maps.Size(20,20)
     };
-
+    var oneWeekAgo = new Date();
+    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     $scope.searchOptions = {
-      minTimeStamp: new Date().getDate()-7
+      minTime: oneWeekAgo,
+      maxTime: ""
     };
-
+    $scope.showWindow = false;
     $scope.infoWindow = {
       options: {
-        visible: false,
+        // visible: false,
         boxClass:"infobox-wrapper",
         disableAutoPan: false,
         maxWidth: 200,
@@ -34,7 +38,7 @@ angular.module('xyz')
         infoBoxClearance: new google.maps.Size(1,1)
       },
       closeClick: function(){
-        $scope.infoWindow.options.visible = false;
+        $scope.showWindow = false;
       }
     };
     $scope.map = {
@@ -66,8 +70,10 @@ angular.module('xyz')
               lat = place.lat(),
               lng = place.lng();
           $scope.searchOptions.lat=lat, $scope.searchOptions.lng=lng;
+          var send = $scope.searchOptions;
+          send.minTime -= 0;
           // The following belongs somewhere else....
-          var Search = $resource('http://localhost:3000/api/media/search/'+lat+'/'+lng);
+          var Search = $resource('http://localhost:3000/api/media/search/', send);
           // going to refactor into its own function that can be called by any of the getters
           Search.get().$promise.then(function(body){
             $scope.posts=[];
@@ -75,7 +81,6 @@ angular.module('xyz')
             $scope.currentPost = {coords:null, mediaLarge:""};
             $scope.map.center={latitude:lat,longitude:lng};
             $scope.map.zoom = 13;
-            console.log(body.data[0].images);
             body.data.forEach(function(post, index){
               if(post.type == 'image') {
                 $scope.posts.push({
@@ -90,12 +95,12 @@ angular.module('xyz')
                   click:function(marker, eventName, model){
                     // on click, toggle visibility of marker's infoWindow
                     if($scope.currentPost != model){
+                      // $scope.infoWindow.options.visible = false;
                       $scope.currentPost=model;
-                      $scope.currentPost.coords={latitude:model.latitude,
-                      longitude:model.longitude};
-
+                      $scope.currentPost.coords= {latitude:model.latitude, longitude:model.longitude};
                     }
-                    $scope.infoWindow.options.visible = true;
+                    $scope.showWindow = true;
+                    // $scope.infoWindow.options.visible = true;
                     // Dirty fix to foundation not initializing in templateUrl problem.
                     // info-window.html is added asynchronously to the DOM
                     // setTimeout(function(){$("#infobox").foundation();},500);

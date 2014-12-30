@@ -1,5 +1,9 @@
 // search.js
 angular.module('xyz')
-  .factory('search', function($http){
-    return $http.get('http://localhost:3000/api/media/search/');
+  .factory('Search', function($http){
+    return {
+      go: function(params){
+        return $http.get('http://localhost:3000/api/media/search/', {params: params});
+      }
+    };
   })

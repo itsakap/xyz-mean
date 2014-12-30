@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="xyz">
+<html ng-app="xyz" ng-controller="MapCtrl">
 	<head>
     <title>XYZ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -43,6 +43,7 @@
                   </span>
                   <span class="icon-holder">
                     <i class="fi fi-refresh"
+                       ng-click="goForthAndSearch(map.center.latitude,map.center.longitude)"
                        tooltip-placement="bottom"
                        tooltip-popup-delay="0"
                        tooltip-animation="false"
@@ -83,7 +84,7 @@
     <!-- <div ng-controller="TagsCtrl"> -->
       <!-- tags partial goes here -->
     <!-- </div> -->
-    <div ng-controller="MapCtrl" style="height:100%">
+    <div style="height:100%">
           <script type="text/ng-template" id="searchbox.tpl.html">
 
             <input type="text" placeholder="Location Search" class="controls" id="pac-input">
@@ -104,7 +105,7 @@
             <a class="close-reveal-modal" ng-click="close()">&#215;</a>
           </script>
 
-      <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" options="options" styles="map.styles">
+      <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" control="map.control" options="options" styles="map.styles">
         <ui-gmap-search-box parentdiv="'search-box'"template="searchbox.template" events="searchbox.events"></ui-gmap-search-box>
         <!--<ui-gmap-circle ng-repeat="c in circles track by c.id" center="map.center" stroke="c.stroke" fill="c.fill" radius="c.radius" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable">
         </ui-gmap-circle>-->
@@ -134,6 +135,7 @@
     <script src="vendor/ng-quick-date.js"></script>
     <script src="app.js"></script>
     <script src="services/searchOptions.js"></script>
+    <script src="services/search.js"></script>
     <script src="controllers/map.js"></script>
     <script src="controllers/navbar.js"></script>
 	</body>

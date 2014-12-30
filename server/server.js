@@ -205,6 +205,7 @@ app.get('/api/media/search/', function(req, res) {
                  count: req.query.maxResults || 100 };
   request.get({ url: mediaUrl, qs: params, json: true }, function(error, response, body) {
     // res.send(body);
+
     var posts = [];
     body.data.forEach(function(post, index){
       if(post.type == 'image'){

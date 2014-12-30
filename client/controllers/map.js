@@ -1,6 +1,6 @@
 // map.js
 angular.module('xyz')
-  .controller('MapCtrl', function($scope, $resource, searchOptions){
+  .controller('MapCtrl', function($scope, $resource, searchOptions, Search){
     $scope.posts = [];
     $scope.icon = {
       url: 'images/marker.png',
@@ -18,6 +18,7 @@ angular.module('xyz')
     tomorrow.setDate(tomorrow.getDate() + 1);
     // $scope.searchOptions=searchOptions;
     $scope.showWindow = false;
+
     $scope.infoWindow = {
       options: {
         // visible: false,
@@ -41,6 +42,7 @@ angular.module('xyz')
     $scope.map = {
       center: {latitude: 44, longitude:-108},
       zoom:4,
+      control: {},
       styles:[
         {"featureType":"water","elementType":"geometry","stylers":[{"color":"#193341"}]},
         {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#2c5a71"}]},
@@ -67,39 +69,46 @@ angular.module('xyz')
               lat = place.lat(),
               lng = place.lng();
           // searchOptions.lat=lat, searchOptions.lng=lng;
-          var send = {};
-          for(option in searchOptions){
-            send[option] = searchOptions[option];
-          }
-          send.lat = lat, send.lng = lng;
-          if(send.minTime != undefined) {
-            send.minTime -= 0, send.minTime /= 1000;
-          }
-          if(send.maxTime != undefined) {
-            send.maxTime -= 0, send.maxTime /= 1000;
-          }
-
-          // The following belongs somewhere else....
-          var Search = $resource('http://localhost:3000/api/media/search/', send);
-          Search.get().$promise.then(function(body){
-            $scope.posts=[], $scope.showWindow = false;
-            // the last post clicked
-            $scope.currentPost = {coords:null, mediaLarge:""};
-            $scope.map.center={latitude:lat,longitude:lng};
-            $scope.map.zoom = 13;
-            body.data.forEach(function(post,index){
-              post.click = function(marker,eventName,model){
-                if($scope.currentPost != model) {
-                  $scope.currentPost = model;
-                  $scope.currentPost.coords = {latitude: model.latitude, longitude: model.longitude}
-                }
-                $scope.showWindow = true;
-              };
-              post.icon = $scope.icon;
-            });
-            $scope.posts = body.data;
-          });
+          $scope.goForthAndSearch(lat,lng);
         }
       }
+    }
+    $scope.refresh=function(){
+      console.log($scope.map.center.latitude);
+      var lat = $scope.map.center.latitude;
+      var lng = $scope.map.center.longitude;
+      goForthAndSearch(lat,lng);
+    };
+    $scope.goForthAndSearch = function(lat, lng){
+      console.log('start');
+      var send = {};
+      for(option in searchOptions){
+        send[option] = searchOptions[option];
+      }
+      send.lat = lat, send.lng = lng;
+      if(send.minTime != undefined) {
+        send.minTime -= 0, send.minTime /= 1000;
+      }
+      if(send.maxTime != undefined) {
+        send.maxTime -= 0, send.maxTime /= 1000;
+      }
+      Search.go(send).success(function(body){
+        console.log('done');
+        $scope.posts=[], $scope.showWindow = false;
+        $scope.currentPost = {coords:null, mediaLarge:""};
+        $scope.map.center={latitude:lat,longitude:lng};
+        $scope.map.zoom = 13;
+        body.data.forEach(function(post,index){
+          post.click = function(marker,eventName,model){
+            if($scope.currentPost != model) {
+              $scope.currentPost = model;
+              $scope.currentPost.coords = {latitude: model.latitude, longitude: model.longitude}
+            }
+            $scope.showWindow = true;
+          };
+          post.icon = $scope.icon;
+        });
+        $scope.posts = body.data;
+      });
     }
   })

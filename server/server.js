@@ -204,7 +204,22 @@ app.get('/api/media/search/', function(req, res) {
                  distance: req.query.dist || 5000,
                  count: req.query.maxResults || 100 };
   request.get({ url: mediaUrl, qs: params, json: true }, function(error, response, body) {
-    res.send(body);
+    // res.send(body);
+    var posts = [];
+    body.data.forEach(function(post, index){
+      if(post.type == 'image'){
+        posts.push({
+          idKey: index,
+          latitude: post.location.latitude,
+          longitude: post.location.longitude,
+          mediaSmall: post.images.thumbnail.url,
+          mediaLarge: post.images.standard_resolution.url,
+          link: post.link
+        })
+      }
+    })
+    var toSend = {data:posts}
+    res.send(toSend);
   })
 })
 app.get('/api/feed', isAuthenticated, function(req, res) {

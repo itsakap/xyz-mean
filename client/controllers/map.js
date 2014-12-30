@@ -78,43 +78,26 @@ angular.module('xyz')
           if(send.maxTime != undefined) {
             send.maxTime -= 0, send.maxTime /= 1000;
           }
+
           // The following belongs somewhere else....
           var Search = $resource('http://localhost:3000/api/media/search/', send);
-          // going to refactor into its own function that can be called by any of the getters
           Search.get().$promise.then(function(body){
-            $scope.posts=[];
+            $scope.posts=[], $scope.showWindow = false;
             // the last post clicked
             $scope.currentPost = {coords:null, mediaLarge:""};
             $scope.map.center={latitude:lat,longitude:lng};
             $scope.map.zoom = 13;
-            body.data.forEach(function(post, index){
-              if(post.type == 'image') {
-                $scope.posts.push({
-                  idKey:index,
-                  icon:$scope.icon,
-                  // must explicitly use 'latitude' and 'longitude' as keys to hook into gmaps
-                  latitude:post.location.latitude,
-                  longitude:post.location.longitude,
-                  mediaSmall:post.images.thumbnail.url,
-                  mediaLarge:post.images.standard_resolution.url,
-                  link:post.link,
-                  click:function(marker, eventName, model){
-                    // on click, toggle visibility of marker's infoWindow
-                    if($scope.currentPost != model){
-                      // $scope.infoWindow.options.visible = false;
-                      $scope.currentPost=model;
-                      $scope.currentPost.coords= {latitude:model.latitude, longitude:model.longitude};
-                    }
-                    $scope.showWindow = true;
-                    // $scope.infoWindow.options.visible = true;
-                    // Dirty fix to foundation not initializing in templateUrl problem.
-                    // info-window.html is added asynchronously to the DOM
-                    // setTimeout(function(){$("#infobox").foundation();},500);
-                  }
-                });
-              }
+            body.data.forEach(function(post,index){
+              post.click = function(marker,eventName,model){
+                if($scope.currentPost != model) {
+                  $scope.currentPost = model;
+                  $scope.currentPost.coords = {latitude: model.latitude, longitude: model.longitude}
+                }
+                $scope.showWindow = true;
+              };
+              post.icon = $scope.icon;
             });
-          // going to refactor into its own function that can be called by any of the getters
+            $scope.posts = body.data;
           });
         }
       }

@@ -1,5 +1,8 @@
 @import url(http://fonts.googleapis.com/css?family=Monoton);
 @import url(http://fonts.googleapis.com/css?family=Condiment);
+html, body{
+  background:#555;
+}
 body{
   margin:0;
 }
@@ -111,7 +114,7 @@ body{
   margin:0 auto;
   border:2px solid black;
 }
-.close-reveal-modal{
+.reveal-modal .close-reveal-modal{
   color:#333;
 }
 

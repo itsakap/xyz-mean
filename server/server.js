@@ -208,6 +208,7 @@ app.get('/api/media/search/', function(req, res) {
 
     var posts = [];
     body.data.forEach(function(post, index){
+      var caption = post.caption || {text:''};
       if(post.type == 'image'){
         posts.push({
           idKey: index,
@@ -215,6 +216,7 @@ app.get('/api/media/search/', function(req, res) {
           longitude: post.location.longitude,
           mediaSmall: post.images.thumbnail.url,
           mediaLarge: post.images.standard_resolution.url,
+          caption: caption.text,
           link: post.link
         })
       }

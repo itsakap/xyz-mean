@@ -3,7 +3,8 @@
 	<head>
     <title>XYZ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"> 
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
     <!-- map script was here -->
     <link rel="stylesheet" href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
     <!-- foundation was here -->
@@ -105,7 +106,8 @@
             <a class="close-reveal-modal" ng-click="close()">&#215;</a>
           </script>
           <script type="text/ng-template" id="post-detail.html">
-            <a href="{{currentPost.post.link}}" target="_blank"><img src="{{currentPost.post.mediaLarge}}"></a>
+            <a href="{{currentPost.post.link}}" target="_blank"><img ng-src="{{currentPost.post.mediaLarge}}"></a>
+            <p class="caption">{{currentPost.post.caption}}</p>
             <a class="close-reveal-modal" ng-click='close()'>&#215;</a>
           </script>
 

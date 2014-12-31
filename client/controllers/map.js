@@ -74,13 +74,11 @@ angular.module('xyz')
       }
     }
     $scope.refresh=function(){
-      console.log($scope.map.center.latitude);
       var lat = $scope.map.center.latitude;
       var lng = $scope.map.center.longitude;
       goForthAndSearch(lat,lng);
     };
     $scope.goForthAndSearch = function(lat, lng){
-      console.log('start');
       var send = {};
       for(option in searchOptions){
         send[option] = searchOptions[option];
@@ -93,7 +91,6 @@ angular.module('xyz')
         send.maxTime -= 0, send.maxTime /= 1000;
       }
       Search.go(send).success(function(body){
-        console.log('done');
         $scope.posts=[], $scope.showWindow = false;
         $scope.currentPost = {
           post:{
@@ -102,14 +99,14 @@ angular.module('xyz')
           },
           click:function(){
             var modalInstance = $modal.open({
-              templateUrl: 'post-detail.html',
-              controller: 'PostDetailCtrl',
-              windowClass: 'post-detail',
               resolve:{
                 currentPost:function(){
                   return $scope.currentPost;
                 }
-              }
+              },
+              templateUrl: 'post-detail.html',
+              controller: 'PostDetailCtrl',
+              windowClass: 'post-detail'
             });
             modalInstance.result.then(function(selectedItem){
 

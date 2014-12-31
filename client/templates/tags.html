@@ -1,8 +1,7 @@
-<div id="news_strip" ng-init='init()' ng-mouseover="conf.news_move_flag=false" ng-mouseout="conf.news_move_flag=true">
-    <a ng-repeat="(k, n) in tags track by $index" ng-style="{'left': get_news_right($index)}" id="news_{{$index}}" rel="nofollow" target="_blank" href="{{n.link}}">
-        <span class="date">{{k}}</span>
-        <span class="title">{{n}}&nbsp;&nbsp;&nbsp;</span>
-    </a>
+<div id="news_strip" ng-init='init()' ng-style="{'margin-left': get_news_right($index)}" ng-mouseover="conf.news_move_flag=false" ng-mouseout="conf.news_move_flag=true">
+    <span ng-repeat="(tag, count) in tags track by $index"  id="news_{{$index}}" rel="nofollow" target="_blank">
+        <a ng-click="showTag()">#{{tag}} ({{count}})</a>&nbsp;&nbsp;&nbsp;
+    </span>
 </div>
 
 

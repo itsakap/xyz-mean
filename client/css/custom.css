@@ -74,26 +74,25 @@ body{
   color:white;
 }
 #news_strip {
-  width: 100%;
   display: block;
   height: 30px;
   position: relative;
   overflow: hidden;
 }
 
-#news_strip a {
+#news_strip span {
   display: inline;
   text-decoration: none;
   margin-right: 5px;
   z-index: 1;
-  position: absolute;
+  /*position: absolute;*/
   top: 0px;
 }
 
-#news_strip a span {
+#news_strip span a {
   cursor: pointer;
   display: inline;
-  color: #343434;
+  color: #99CC00;;
   font-weight: bold;
   padding-right: 5px;
   z-index: 1;
@@ -105,7 +104,7 @@ body{
   color: #888888;
 }
 
-#news_strip a:hover span.title {
+#news_strip a:hover {
   text-decoration: underline;
 }
 

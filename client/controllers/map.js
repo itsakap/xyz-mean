@@ -1,6 +1,7 @@
 // map.js
+// THIS FILE IS WAY TOO BIG
 angular.module('xyz')
-  .controller('MapCtrl', function($scope, $resource, $modal, $log, searchOptions, Search){
+  .controller('MapCtrl', function($scope, $modal, $log, searchOptions, Search){
     $scope.posts = [];
     $scope.icon = {
       url: 'images/marker.png',
@@ -12,16 +13,9 @@ angular.module('xyz')
       anchor: new google.maps.Point(0, 32),
       scaledSize: new google.maps.Size(20,20)
     };
-    var oneWeekAgo = new Date();
-    oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-    var tomorrow = new Date();
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    // $scope.searchOptions=searchOptions;
     $scope.showWindow = false;
-
     $scope.infoWindow = {
       options: {
-        // visible: false,
         boxClass:"infobox-wrapper",
         disableAutoPan: false,
         maxWidth: 200,
@@ -59,7 +53,6 @@ angular.module('xyz')
       panControl: false,
       streetViewControl: false
     };
-
     $scope.searchbox = {
       template:'searchbox.tpl.html',
       position:'top-left',
@@ -73,11 +66,6 @@ angular.module('xyz')
         }
       }
     }
-    $scope.refresh=function(){
-      var lat = $scope.map.center.latitude;
-      var lng = $scope.map.center.longitude;
-      goForthAndSearch(lat,lng);
-    };
     $scope.goForthAndSearch = function(lat, lng){
       var send = {};
       for(option in searchOptions){

@@ -1,7 +1,7 @@
 what to do, what to do...
 
-- photo detail modal
-- oauth stuff
+- hashtags
+- oauth stuff: favorites, collections
 
 what might be fun to try...
 

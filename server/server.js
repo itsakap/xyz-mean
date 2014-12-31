@@ -32,7 +32,7 @@ var corsOptions = {
   credentials: true
 };
 
-var oneMonth = 2628;
+var oneMonth = 2628; // 2628 units of time evaluates to approx. one month
  
 app.set('port', process.env.PORT || 3000);
 app.use(compress());

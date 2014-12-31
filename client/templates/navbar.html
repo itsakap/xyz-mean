@@ -1,0 +1,63 @@
+<!-- navbar.html -->
+<top-bar id="nav-container" class="fixed">
+
+  <ul class="title-area">
+    <li class="name">
+      <a href="#"><h1 class = "topbar-title">xyz</h1></a>
+    </li>
+    <li style="display:inline-block"> <span id="social" class="hide-for-small-only">...for the social explorer</span></li>
+    <li toggle-top-bar><a href="">Search</a></li>
+  </ul>
+  <div class="collapse">
+    <section class="top-bar-section">
+      <ul>
+        <!-- Left Nav Section -->
+        <li class="has-form left">
+          <div id="pac-nest">
+            <span id="search-box" class="left">
+            </span>
+            <span class="icon-holder">
+              <i class="fi fi-widget"
+                 tooltip="Search Settings"
+                 tooltip-animation="false"
+                 tooltip-placement="bottom"
+                 ng-click="openSettings()"></i>
+            </span>
+            <span class="icon-holder">
+              <i class="fi fi-refresh"
+                 ng-click="goForthAndSearch(map.center.latitude,map.center.longitude)"
+                 tooltip-placement="bottom"
+                 tooltip-popup-delay="0"
+                 tooltip-animation="false"
+                 tooltip="Search Center of Map"></i>
+            </span>
+            <span class="icon-holder">
+             <a href="http://www.instagram.com" target="_blank"><span class= "fi fi-social-instagram" tooltip-animation="false" tooltip-placement="bottom" tooltip="Log in to Instagram"></span></a>
+           </span>
+            <!-- possibly add more buttons for red/green circles' toggle -->
+          </div>
+        </li>
+        <!-- Right Nav Section -->
+        <li class = "has-form right">          
+          <!-- <a href=""><span class= "fi fi-social-instagram" tooltip-animation="false" tooltip-placement="bottom" tooltip="Log in to Instagram"></span></a> -->
+        </li>
+      </ul>
+    </section>
+  </div>
+  <div id="tag-partial" style="z-index:1" class="large-12 small-12 columns">
+    <div class="scrollingtext">
+
+    </div>
+  </div>
+
+  <!-- Search Settings modal -->
+  <div id="search-settings" class="reveal-modal medium">
+    <a class="close-reveal-modal">&#215;</a>
+    <label>Search for photos uploaded after</label>
+    <input type="datetime-local" x-ng-model="searchOptions.minTime">
+    <label>and before</label>
+    <input type="datetime-local" x-ng-model="searchOptions.maxTime">
+    <input type="text" x-ng-model='searchOptions.distance' placeholder="Radius (meters)">
+    <input type="text" x-ng-model="searchOptions.maxResults" placeholder="Max Results (default 100)">
+  </div>
+</top-bar>

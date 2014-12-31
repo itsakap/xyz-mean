@@ -1,4 +1,4 @@
-// searchOptions.js
+// search-options.js
 angular.module("xyz")
   .factory('searchOptions', function(){
     var oneWeekAgo = new Date();

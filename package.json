@@ -1,6 +1,9 @@
 {
   "name": "xyz-server",
   "version": "0.0.1",
+  "description" : "A fun way to view Instagram photos.",
+  "author" : "Adam Kaplan <adamhkaplan@gmail.com>",
+  "license" : "MIT",
   "scripts": {
     "start": "node server/server.js"
   },

@@ -3,7 +3,7 @@ angular.module("xyz")
   .controller('NavbarCtrl', function($scope, $modal, $log, searchOptions){
     $scope.openSettings = function(){
       var modalInstance = $modal.open({
-        templateUrl: 'xxx.html',
+        templateUrl: 'search-options.html',
         controller: 'ModalInstanceCtrl'
       });
       modalInstance.result.then(function (selectedItem) {

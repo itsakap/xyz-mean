@@ -20,6 +20,7 @@
     |                          |
     ------------------------- -->
     <div style='z-index:10' ng-controller="NavbarCtrl" ng-include="'templates/navbar.html'"></div>
+    <div style="z-index:10; height:30px; background: red;" ng-controller="TagsCtrl" ng-include="'templates/tags.html'"></div>
     <!-- <div ng-controller="TagsCtrl"> -->
       <!-- tags partial goes here -->
     <!-- </div> -->
@@ -71,9 +72,9 @@
     <!-- these scripts can be instantiated better -->
     <script src="vendor/angular.js"></script>
     <script src="//pineconellc.github.io/angular-foundation/mm-foundation-tpls-0.5.1.js"></script>
-		<script src="vendor/angular-route.js"></script>
-		<script src="vendor/angular-messages.js"></script>
-		<script src="vendor/satellizer.js"></script>
+    <script src="vendor/angular-route.js"></script>
+    <script src="vendor/angular-messages.js"></script>
+    <script src="vendor/satellizer.js"></script>
     <script src='//maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry,places'></script>
     <script src="vendor/lodash.js"></script>
     <script src="vendor/angular-google-maps.min.js"></script>
@@ -82,8 +83,11 @@
     <script src="app.js"></script>
     <script src="services/search-options.js"></script>
     <script src="services/search.js"></script>
+    <script src="services/posts.js"></script>
+    <script src="services/tags.js"></script>
     <script src="controllers/map.js"></script>
     <script src="controllers/navbar.js"></script>
     <script src="controllers/post-detail.js"></script>
+    <script src="controllers/tags.js"></script>
 	</body>
 </html>

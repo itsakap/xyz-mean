@@ -206,7 +206,7 @@ app.get('/api/media/search/', function(req, res) {
   request.get({ url: mediaUrl, qs: params, json: true }, function(error, response, body) {
     // res.send(body);
 
-    var posts = [];
+    var posts = [], tags={};
     body.data.forEach(function(post, index){
       var caption = post.caption || {text:''};
       if(post.type == 'image'){
@@ -219,9 +219,12 @@ app.get('/api/media/search/', function(req, res) {
           caption: caption.text,
           link: post.link
         })
+        post.tags.forEach(function(tag, index){
+          tags[tag] > 0 ? tags[tag] += 1 : tags[tag] = 1;
+        })
       }
     })
-    var toSend = {data:posts}
+    var toSend = {data:posts, tags:tags}
     res.send(toSend);
   })
 })

@@ -1,8 +1,10 @@
 // map.js
 // THIS FILE IS WAY TOO BIG
 angular.module('xyz')
-  .controller('MapCtrl', function($scope, $modal, $log, searchOptions, Search){
-    $scope.posts = [];
+  .controller('MapCtrl', function($scope, $modal, $log, searchOptions, Search, Posts, Tags){
+    $scope.posts = Posts;
+    $scope.tags = Tags;
+
     $scope.icon = {
       url: 'images/marker.png',
       // This marker is 20 pixels wide by 32 pixels tall.
@@ -37,7 +39,7 @@ angular.module('xyz')
       center: {latitude: 44, longitude:-108},
       zoom:4,
       control: {},
-      styles:[
+      styles:[  // for that awesome color scheme; available for download at <www.snazzymaps.com>
         {"featureType":"water","elementType":"geometry","stylers":[{"color":"#193341"}]},
         {"featureType":"landscape","elementType":"geometry","stylers":[{"color":"#2c5a71"}]},
         {"featureType":"road","elementType":"geometry","stylers":[{"color":"#29768a"},{"lightness":-37}]},
@@ -61,7 +63,6 @@ angular.module('xyz')
           var place = s.getPlaces()[0].geometry.location,
               lat = place.lat(),
               lng = place.lng();
-          // searchOptions.lat=lat, searchOptions.lng=lng;
           $scope.goForthAndSearch(lat,lng);
         }
       }
@@ -115,7 +116,8 @@ angular.module('xyz')
           };
           post.icon = $scope.icon;
         });
-        $scope.posts = body.data;
+        $scope.posts = Posts = body.data;
+        $scope.tags = Tags = body.tags;
       });
     }
   })

@@ -73,6 +73,66 @@ body{
   font-size:35px;
   color:white;
 }
+#news_strip {
+  width: 100%;
+  display: block;
+  height: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+#news_strip a {
+  display: inline;
+  text-decoration: none;
+  margin-right: 5px;
+  z-index: 1;
+  position: absolute;
+  top: 0px;
+}
+
+#news_strip a span {
+  cursor: pointer;
+  display: inline;
+  color: #343434;
+  font-weight: bold;
+  padding-right: 5px;
+  z-index: 1;
+}
+
+#news_strip a span.date {
+  display: inline-block;
+  font-weight: normal;
+  color: #888888;
+}
+
+#news_strip a:hover span.title {
+  text-decoration: underline;
+}
+
+/* The shadow DIVs of the sides are decorative and optional, but they add a very nice effect :) */
+
+#news_strip div.shadow{
+  position: absolute;
+  top: 0px;
+  width: 30px;
+  height: 100%;
+  z-index: 5;
+  background: #ffffff;
+}
+
+#news_strip div.shadow.left{
+  left: 0px;
+  -webkit-box-shadow: 10px 0px 10px #fff;
+  -moz-box-shadow: 10px 0px 10px #fff;
+  box-shadow: 10px 0px 10px #fff;
+}
+
+#news_strip div.shadow.right{
+  right: 0px;
+  -webkit-box-shadow: -10px 0px 10px #fff;
+  -moz-box-shadow: -10px 0px 10px #fff;
+  box-shadow: -10px 0px 10px #fff;
+}
 /*============================
 |                            |
 |      INFOBOX STYLING       |

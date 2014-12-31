@@ -96,5 +96,23 @@ body{
     -webkit-box-shadow: 0 0  8px #000;
     box-shadow: 0 0 8px #000;
 }
+/*============================
+|                            |
+|    POST-DETAIL STYLING     |
+|                            |
+=============================*/
+.post-detail{
+  background:rgba(255,250,156, 0.75);
+  text-align: center;
+  padding-top:2.5em;
+}
+.post-detail img {
+  display:block;
+  margin:0 auto;
+  border:2px solid black;
+}
+.close-reveal-modal{
+  color:#333;
+}
 
 

@@ -1,6 +1,6 @@
 // map.js
 angular.module('xyz')
-  .controller('MapCtrl', function($scope, $resource, searchOptions, Search){
+  .controller('MapCtrl', function($scope, $resource, $modal, $log, searchOptions, Search){
     $scope.posts = [];
     $scope.icon = {
       url: 'images/marker.png',
@@ -95,13 +95,35 @@ angular.module('xyz')
       Search.go(send).success(function(body){
         console.log('done');
         $scope.posts=[], $scope.showWindow = false;
-        $scope.currentPost = {coords:null, mediaLarge:""};
+        $scope.currentPost = {
+          post:{
+            coords:null,
+            mediaLarge:""
+          },
+          click:function(){
+            var modalInstance = $modal.open({
+              templateUrl: 'post-detail.html',
+              controller: 'PostDetailCtrl',
+              windowClass: 'post-detail',
+              resolve:{
+                currentPost:function(){
+                  return $scope.currentPost;
+                }
+              }
+            });
+            modalInstance.result.then(function(selectedItem){
+
+            }, function(){
+              $log.info('closing');
+            })
+          }
+        };
         $scope.map.center={latitude:lat,longitude:lng};
         $scope.map.zoom = 13;
         body.data.forEach(function(post,index){
           post.click = function(marker,eventName,model){
-            if($scope.currentPost != model) {
-              $scope.currentPost = model;
+            if($scope.currentPost.post != model) {
+              $scope.currentPost.post = model;
               $scope.currentPost.coords = {latitude: model.latitude, longitude: model.longitude}
             }
             $scope.showWindow = true;

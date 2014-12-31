@@ -1,10 +1,9 @@
 <div id='infobox'>
   <!-- render done with ng-click until compiling this template with Foundation makes sense -->
-  <img data-reveal-id="show-modal" src="{{templateParameter.mediaSmall}}">
+  <img data-reveal-id="show-modal" src="{{templateParameter.post.mediaSmall}}" ng-click="templateParameter.click()">
   <div class='add-modal'>Click to enlarge</div>
-
   <div id="show-modal" class="reveal-modal medium bigInfoBox" data-reveal>
-    <a href="{{templateParameter.link}}" target="_blank"><img src="{{templateParameter.mediaLarge}}"></a>
+    <a href="{{templateParameter.post.link}}" target="_blank"><img src="{{templateParameter.post.mediaLarge}}"></a>
     <a class="close-reveal-modal">&#215;</a>
   </div>
 </div>

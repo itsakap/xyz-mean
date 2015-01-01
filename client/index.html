@@ -55,7 +55,7 @@
         <ui-gmap-search-box parentdiv="'search-box'"template="searchbox.template" events="searchbox.events"></ui-gmap-search-box>
         <!--<ui-gmap-circle ng-repeat="c in circles track by c.id" center="map.center" stroke="c.stroke" fill="c.fill" radius="c.radius" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable">
         </ui-gmap-circle>-->
-        <ui-gmap-markers models="posts" coords="'self'" icon="'icon'" idKey="'idKey'" click="'click'">
+        <ui-gmap-markers models="posts" doRebuildAll="true" coords="'self'" icon="'icon'" idKey="'idKey'" click="'click'">
           
         </ui-gmap-markers>
         <ui-gmap-window

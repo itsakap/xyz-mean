@@ -206,25 +206,32 @@ app.get('/api/media/search/', function(req, res) {
   request.get({ url: mediaUrl, qs: params, json: true }, function(error, response, body) {
     // res.send(body);
 
-    var posts = [], tags={};
+    var posts = {}, tags={};
     body.data.forEach(function(post, index){
       var caption = post.caption || {text:''};
       if(post.type == 'image'){
-        posts.push({
-          idKey: index,
+        posts[post.id] = {
+          idKey: post.id,
           latitude: post.location.latitude,
           longitude: post.location.longitude,
           mediaSmall: post.images.thumbnail.url,
           mediaLarge: post.images.standard_resolution.url,
           caption: caption.text,
           link: post.link
-        })
+        };
         post.tags.forEach(function(tag, index){
-          tags[tag] > 0 ? tags[tag] += 1 : tags[tag] = 1;
+          // the 'tag' key is associated with a count (# of posts the tag appears in), AND reference to the post
+          if(tags[tag] != undefined){
+            tags[tag]['count'] += 1;
+            tags[tag]['posts'].push(post.id);
+          }
+          else tags[tag] = {count: 1, posts: [post.id]};
+
         })
       }
-    })
-    var toSend = {data:posts, tags:tags}
+    });
+
+    var toSend = {data:posts, tags:tags};
     res.send(toSend);
   })
 })

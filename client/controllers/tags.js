@@ -19,7 +19,7 @@ angular.module('xyz')
             // }
         // });
     };
-
+    //rewrite the next two functions to wrap around when approaching final tag
     $scope.get_news_right = function(idx) {
         var $right = $scope.conf.news_pos;
         for (var ri=0; ri < 1; ri++) {
@@ -31,6 +31,7 @@ angular.module('xyz')
     };
 
     $scope.news_move = function() {
+
         if ($scope.conf.news_move_flag) {
             $scope.conf.news_pos--;
             // if ( angular.element(document.getElementById('news_0'))[0].offsetWidth > angular.element(document.getElementById('news_strip'))[0].offsetWidth + $scope.conf.news_margin ) {
@@ -41,4 +42,5 @@ angular.module('xyz')
             // }
         }
     };
+
   })

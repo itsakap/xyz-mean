@@ -15,6 +15,16 @@ angular.module('xyz')
       anchor: new google.maps.Point(0, 32),
       scaledSize: new google.maps.Size(20,20)
     };
+    $scope.altIcon = {
+      url: 'images/altMarker.png',
+      // This marker is 20 pixels wide by 32 pixels tall.
+      size: new google.maps.Size(20, 32),
+      // The origin for this image is 0,0.
+      origin: new google.maps.Point(0,0),
+      // The anchor for this image is the base of the flagpole at 0,32.
+      anchor: new google.maps.Point(0, 32),
+      scaledSize: new google.maps.Size(20,20)
+    };
     $scope.showWindow = false;
     $scope.infoWindow = {
       options: {
@@ -100,24 +110,31 @@ angular.module('xyz')
             modalInstance.result.then(function(selectedItem){
 
             }, function(){
-              $log.info('closing');
+              $log.info();
             })
           }
         };
         $scope.map.center={latitude:lat,longitude:lng};
         $scope.map.zoom = 13;
-        body.data.forEach(function(post,index){
-          post.click = function(marker,eventName,model){
+        for(post in body.data){
+          body.data[post].click = function(marker,eventName,model){
             if($scope.currentPost.post != model) {
               $scope.currentPost.post = model;
               $scope.currentPost.coords = {latitude: model.latitude, longitude: model.longitude}
             }
             $scope.showWindow = true;
           };
-          post.icon = $scope.icon;
-        });
-        $scope.posts = Posts = body.data;
+          body.data[post]['icon'] = $scope.icon;
+        }
+        $scope.rawPosts = body.data;
+        $scope.posts = Posts = Object.keys(body.data).map(function(v){return body.data[v]});
         $scope.tags = Tags = body.tags;
+      });
+    }
+    $scope.showTag = function(belongings) {
+      belongings.forEach(function(post, index){
+        $scope.rawPosts[post]['icon'] = $scope.altIcon;
+        console.log($scope.rawPosts[post]['icon']);
       });
     }
   })

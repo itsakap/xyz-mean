@@ -82,6 +82,7 @@ body{
 
 #news_strip span {
   display: inline;
+  color: #99CC00;
   text-decoration: none;
   margin-right: 5px;
   z-index: 1;
@@ -92,7 +93,7 @@ body{
 #news_strip span a {
   cursor: pointer;
   display: inline;
-  color: #99CC00;;
+  color: #99CC00;
   font-weight: bold;
   padding-right: 5px;
   z-index: 1;
@@ -104,8 +105,11 @@ body{
   color: #888888;
 }
 
-#news_strip a:hover {
+#news_strip a {
   text-decoration: underline;
+}
+#news_strip a:hover{
+  color:#CCFF00;
 }
 
 /* The shadow DIVs of the sides are decorative and optional, but they add a very nice effect :) */
@@ -177,4 +181,7 @@ body{
   color:#333;
 }
 
+.loaded{
+  display:none;
+}
 

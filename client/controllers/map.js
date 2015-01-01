@@ -4,6 +4,7 @@ angular.module('xyz')
   .controller('MapCtrl', function($scope, $modal, $log, searchOptions, Search, Posts, Tags){
     $scope.posts = Posts;
     $scope.tags = Tags;
+    $scope.loaded = true;
 
     $scope.icon = {
       url: 'images/marker.png',
@@ -78,6 +79,7 @@ angular.module('xyz')
       }
     }
     $scope.goForthAndSearch = function(lat, lng){
+      $scope.loaded = false;
       var send = {};
       for(option in searchOptions){
         send[option] = searchOptions[option];
@@ -90,51 +92,54 @@ angular.module('xyz')
         send.maxTime -= 0, send.maxTime /= 1000;
       }
       Search.go(send).success(function(body){
-        $scope.posts=[], $scope.showWindow = false;
-        $scope.currentPost = {
-          post:{
-            coords:null,
-            mediaLarge:""
-          },
-          click:function(){
-            var modalInstance = $modal.open({
-              resolve:{
-                currentPost:function(){
-                  return $scope.currentPost;
-                }
-              },
-              templateUrl: 'post-detail.html',
-              controller: 'PostDetailCtrl',
-              windowClass: 'post-detail'
-            });
-            modalInstance.result.then(function(selectedItem){
+        if(Object.keys(body.data).length == 0){alert('No results found. Try searching a more populated or more specific area.');}
+        else{
+          $scope.posts=[], $scope.showWindow = false;
+          $scope.currentPost = {
+            post:{
+              coords:null,
+              mediaLarge:""
+            },
+            click:function(){
+              var modalInstance = $modal.open({
+                resolve:{
+                  currentPost:function(){
+                    return $scope.currentPost;
+                  }
+                },
+                templateUrl: 'post-detail.html',
+                controller: 'PostDetailCtrl',
+                windowClass: 'post-detail'
+              });
+              modalInstance.result.then(function(selectedItem){
 
-            }, function(){
-              $log.info();
-            })
-          }
-        };
-        $scope.map.center={latitude:lat,longitude:lng};
-        $scope.map.zoom = 13;
-        for(post in body.data){
-          body.data[post].click = function(marker,eventName,model){
-            if($scope.currentPost.post != model) {
-              $scope.currentPost.post = model;
-              $scope.currentPost.coords = {latitude: model.latitude, longitude: model.longitude}
+              }, function(){
+                $log.info();
+              })
             }
-            $scope.showWindow = true;
           };
-          body.data[post]['icon'] = $scope.icon;
+          $scope.map.center={latitude:lat,longitude:lng};
+          $scope.map.zoom = 13;
+          for(post in body.data){
+            body.data[post].click = function(marker,eventName,model){
+              if($scope.currentPost.post != model) {
+                $scope.currentPost.post = model;
+                $scope.currentPost.coords = {latitude: model.latitude, longitude: model.longitude}
+              }
+              $scope.showWindow = true;
+            };
+            body.data[post]['icon'] = $scope.icon;
+          }
+          $scope.rawPosts = body.data;
+          $scope.posts = Posts = Object.keys(body.data).map(function(v){return body.data[v]});
+          $scope.tags = Tags = body.tags;
         }
-        $scope.rawPosts = body.data;
-        $scope.posts = Posts = Object.keys(body.data).map(function(v){return body.data[v]});
-        $scope.tags = Tags = body.tags;
+        $scope.loaded = true;
       });
-    }
+    };
     $scope.showTag = function(belongings) {
       belongings.forEach(function(post, index){
         $scope.rawPosts[post]['icon'] = $scope.altIcon;
-        console.log($scope.rawPosts[post]['icon']);
       });
     }
   })

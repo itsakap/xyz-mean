@@ -19,38 +19,42 @@
     |          NAVBAR          |
     |                          |
     ------------------------- -->
-    <div style='z-index:10' ng-controller="NavbarCtrl" ng-include="'templates/navbar.html'"></div>
-    <div style="z-index:10; height:30px; background: #333300;" ng-controller="TagsCtrl" ng-include="'templates/tags.html'"></div>
+    <div class="fixed">
+        <div style='z-index:10' ng-controller="NavbarCtrl" ng-include="'templates/navbar.html'"></div>
+        <div style="z-index:10; height:30px; background: #333300;" ng-controller="TagsCtrl" ng-include="'templates/tags.html'"></div>
+    </div>
     <!-- <div ng-controller="TagsCtrl"> -->
       <!-- tags partial goes here -->
     <!-- </div> -->
-    <div style="height:100%">
+    <div style="height:100%; position:relative; top:75px;">
           <!-- move these templates to the directory if possible -->
-          <script type="text/ng-template" id="searchbox.tpl.html">
+      <script type="text/ng-template" id="searchbox.tpl.html">
+        <input type="text" placeholder="Location Search" class="controls" id="pac-input">
+      </script>
+      <script type="text/ng-template" id="search-options.html">
+        <h2>Search Options</h2>
+        <p>
+          <label><b>Search for photos uploaded after</b></label>
+          <quick-datepicker ng-model='searchOptions.minTime'></quick-datepicker>
+        </p>
+        <p>
+          <label><b>and before</b></label>
+          <quick-datepicker ng-model="searchOptions.maxTime"></quick-datepicker>
+        </p>
 
-            <input type="text" placeholder="Location Search" class="controls" id="pac-input">
-          </script>
-          <script type="text/ng-template" id="search-options.html">
-            <h2>Search Options</h2>
-            <p>
-              <label><b>Search for photos uploaded after</b></label>
-              <quick-datepicker ng-model='searchOptions.minTime'></quick-datepicker>
-            </p>
-            <p>
-              <label><b>and before</b></label>
-              <quick-datepicker ng-model="searchOptions.maxTime"></quick-datepicker>
-            </p>
-
-            <input type="text" x-ng-modal='searchOptions.distance' placeholder="Radius (meters)">
-            <input type="text" x-ng-modal='searchOptions.maxResults' placeholder="Max Results (default 100)">
-            <a class="close-reveal-modal" ng-click="close()">&#215;</a>
-          </script>
-          <script type="text/ng-template" id="post-detail.html">
-            <a href="{{currentPost.post.link}}" target="_blank"><img ng-src="{{currentPost.post.mediaLarge}}"></a>
-            <p class="caption">{{currentPost.post.caption}}</p>
-            <a class="close-reveal-modal" ng-click='close()'>&#215;</a>
-          </script>
-
+        <input type="text" x-ng-modal='searchOptions.distance' placeholder="Radius (meters)">
+        <input type="text" x-ng-modal='searchOptions.maxResults' placeholder="Max Results (default 100)">
+        <a class="close-reveal-modal" ng-click="close()">&#215;</a>
+      </script>
+      <script type="text/ng-template" id="post-detail.html">
+        <a href="{{currentPost.post.link}}" target="_blank"><img ng-src="{{currentPost.post.mediaLarge}}"></a>
+        <p class="caption">{{currentPost.post.caption}}</p>
+        <a class="close-reveal-modal" ng-click='close()'>&#215;</a>
+      </script>
+      <div style="position:absolute; z-index:20; width:100%; height:100%; text-align:center; background:rgba(0,0,0,0.7)" ng-class="{loaded:loaded}">
+        <!-- loading circle thang goes in the middle -->
+        <img src="images/preloader.gif" style="position:absolute; top:50%">
+      </div>
       <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" control="map.control" options="options" styles="map.styles">
         <ui-gmap-search-box parentdiv="'search-box'"template="searchbox.template" events="searchbox.events"></ui-gmap-search-box>
         <!--<ui-gmap-circle ng-repeat="c in circles track by c.id" center="map.center" stroke="c.stroke" fill="c.fill" radius="c.radius" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable">

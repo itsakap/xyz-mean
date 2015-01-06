@@ -5,6 +5,7 @@ angular.module('xyz')
     $scope.posts = Posts;
     $scope.tags = Tags;
     $scope.loaded = true;
+    $scope.grandma = true;
 
     $scope.icon = {
       url: 'images/marker.png',
@@ -133,8 +134,13 @@ angular.module('xyz')
           $scope.rawPosts = body.data;
           $scope.posts = Posts = Object.keys(body.data).map(function(v){return body.data[v]});
           $scope.tags = Tags = body.tags;
+          $scope.range = body.range;
+          $scope.grandma = true;
+          $scope.showDates = true;
+          $scope.rangeResults = {message: "Search returned pictures taken between " + $scope.range.earliest + " and " + $scope.range.latest};
         }
         $scope.loaded = true;
+        angular.element(document.querySelector('#nav-container')).removeClass('expanded');
       });
     };
     $scope.showTag = function(belongings) {

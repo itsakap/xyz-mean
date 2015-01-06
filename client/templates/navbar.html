@@ -31,16 +31,20 @@
                  tooltip-animation="false"
                  tooltip="Search Center of Map"></i>
             </span>
-            <span class="icon-holder">
-             <a href="http://www.instagram.com" target="_blank"><span class= "fi fi-social-instagram" tooltip-animation="false" tooltip-placement="bottom" tooltip="Log in to Instagram"></span></a>
-           </span>
+            <span class="icon-holder" ng-if="!isAuthenticated()">
+              <a ng-click="instagramLogin()">
+                <span class= "fi fi-social-instagram" tooltip-animation="false" tooltip-placement="bottom" tooltip="Log in to Instagram"></span>
+              </a>
+            </span>
+            <span class="icon-holder" ng-if="isAuthenticated()">
+              <a href="http://instagram.com/{{currentUser.username}}" target="_blank">
+                <img ng-if="isAuthenticated()" class="media-object img-rounded" ng-src="{{currentUser.picture}}" tooltip-animation="false" tooltip-placement="bottom" tooltip="Click for Menu">
+              </a>
+            </span>
             <!-- possibly add more buttons for red/green circles' toggle -->
           </div>
         </li>
-        <!-- Right Nav Section -->
-        <li class = "has-form right">          
-          <!-- <a href=""><span class= "fi fi-social-instagram" tooltip-animation="false" tooltip-placement="bottom" tooltip="Log in to Instagram"></span></a> -->
-        </li>
+
       </ul>
     </section>
   </div>
@@ -58,6 +62,6 @@
     <label>and before</label>
     <input type="datetime-local" x-ng-model="searchOptions.maxTime">
     <input type="text" x-ng-model='searchOptions.distance' placeholder="Radius (meters)">
-    <input type="text" x-ng-model="searchOptions.maxResults" placeholder="Max Results (default 100)">
+    <input type="text" x-ng-model="searchOptions.maxResults" placeholder="Max Results (currently 100 is max)">
   </div>
 </top-bar>

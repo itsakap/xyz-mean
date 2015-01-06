@@ -20,6 +20,13 @@ body{
 .angular-google-map-container img {
   max-width: none;
 }
+.min-time{
+  position: absolute;
+  top:40px;
+  z-index:30;
+  left:50px;
+  color:#99cc00;
+}
 
 /*===========================
 |                           |
@@ -29,8 +36,10 @@ body{
 #nav-container{
   width:100%;
 }
-.expanded {
+.top-bar.expanded {
   overflow: visible;
+  height:123px;
+  background: #333;
 }
 .top-bar .name h1 {
     font-family:Monoton;

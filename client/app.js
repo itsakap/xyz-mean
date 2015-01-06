@@ -27,4 +27,23 @@ angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGm
         controller: 'TagDetailCtrl'
       })
       .otherwise('/');
+    var theFrontEnd = 'http://localhost:8000/client';
+    var theHost = "http://localhost:3000";
+    // $authProvider.loginUrl = theHost + '/auth/login';
+    // $authProvider.signupUrl = theHost + '/register';
+    $authProvider.oauth2({
+      name: 'instagram',
+      url: theHost + '/auth/instagram',
+      redirectUri: theFrontEnd,
+      clientId: '077558afe95c4b83b77b8f9e2e02d072',
+      requiredUrlParams: ['scope'],
+      scope: ['likes'],
+      scopeDelimiter: '+',
+      authorizationEndpoint: 'https://api.instagram.com/oauth/authorize'
+    })
+  })
+  .run(function($rootScope, $window, $auth) {
+    if ($auth.isAuthenticated()) {
+      $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
+    }
   })

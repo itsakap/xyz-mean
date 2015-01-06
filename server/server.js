@@ -14,14 +14,22 @@ var config = require('./config');
 
 var User = mongoose.model("User", new mongoose.Schema({
   instagramId: { type: String, index: true },
-  email: { type: String, unique: true, lowercase: true },
-  password: { type: String, select: false },
   username: String,
   fullName: String,
   picture: String,
-  accessToken: String
+  accessToken: String,
+  collections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Collection' }],
+  favorites: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Favorite' }]
 }));
-
+var Post = mongoose.model('Post', new mongoose.Schema({
+  instagramId: { type: String, index: true },
+  collections: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Collection' }]
+}));
+var Collection = mongoose.model("Collection", new mongoose.Schema({
+  name: String,
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  posts: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }]
+}));
 mongoose.connect(config.db);
 
 var app = express();
@@ -73,26 +81,23 @@ function isAuthenticated(req, res, next) {
     next();
   })
 }
-app.post('/auth/login', function(req,res){
-  User.findOne({ email: req.body.email }, '+password', function(err, user) {
-    if(!user) { 
-      return res.status(401).send({ message: { email: 'Incorrect email' } });
+function checkForAuthentication(req, res, next){
+  if(req.headers && req.headers.authorization){
+    var header = req.headers.authorization.split(' ');
+    var token = header[1];
+    var payload = jwt.decode(token, config.tokenSecret);
+    var now = moment().unix();
+  
+    if (now > payload.exp) {
+      return res.status(401).send({ message: "Token has expired."  });
     }
-
-    bcrypt.compare(req.body.password, user.password, function(err, isMatch) {
-      if (!isMatch){
-        return res.status(401).send({ message: {password: "Incorrect password" } });
-      }
-      
-      user = user.toObject();
-      delete user.password;
-      
-      var token = createToken(user);
-      res.send({ token: token, user: user });
-
-    });
-  });
-});
+    User.findById(payload.sub, function(err, user) {
+      if(user) { req.user = user; }
+      next();
+    })
+  }
+  else { next(); }
+}
 
 app.post("/register", function(req, res){
   User.findOne({ email: req.body.email }, function(err, existingUser){
@@ -193,10 +198,11 @@ app.post('/auth/instagram', function(req, res) {
     }
  });
 });
-// other params...
-app.get('/api/media/search/', function(req, res) {
+app.get('/api/media/search/', checkForAuthentication, function(req, res) {
   var mediaUrl = 'https://api.instagram.com/v1/media/search/';
-  var params = { access_token: process.env.XYZ_INSTAGRAM_ACCESS_TOKEN,
+  var accessToken;
+  if (req.user){ accessToken = req.user.accessToken };
+  var params = { access_token: accessToken || process.env.XYZ_INSTAGRAM_ACCESS_TOKEN,
                  lat: req.query.lat,
                  lng: req.query.lng,
                  min_timestamp: req.query.minTime,
@@ -204,9 +210,8 @@ app.get('/api/media/search/', function(req, res) {
                  distance: req.query.dist || 5000,
                  count: req.query.maxResults || 100 };
   request.get({ url: mediaUrl, qs: params, json: true }, function(error, response, body) {
-    // res.send(body);
 
-    var posts = {}, tags={};
+    var posts = {}, tags={}, range = {earliest: Infinity, latest: 0};
     body.data.forEach(function(post, index){
       var caption = post.caption || {text:''};
       if(post.type == 'image'){
@@ -219,6 +224,8 @@ app.get('/api/media/search/', function(req, res) {
           caption: caption.text,
           link: post.link
         };
+        if(range.earliest > parseInt(post.created_time)) {range.earliest = parseInt(post.created_time);}
+        if(range.latest < parseInt(post.created_time)) {range.latest = parseInt(post.created_time);}
         post.tags.forEach(function(tag, index){
           // the 'tag' key is associated with a count (# of posts the tag appears in), AND reference to the post
           if(tags[tag] != undefined){
@@ -230,10 +237,64 @@ app.get('/api/media/search/', function(req, res) {
         })
       }
     });
-
-    var toSend = {data:posts, tags:tags};
+    //convert epochs to dates before sending
+    earliestDate = new Date(range.earliest*1000);
+    latestDate = new Date(range.latest*1000);
+    var formatDate = function(date){
+      var month = date.getMonth() + 1;
+      var hour = date.getHours();
+      var minutes = date.getMinutes();
+      return month + '/' + date.getDate() + '/' + date.getFullYear() + ", " + hour + ":" + minutes;
+    }
+    range.earliest = formatDate(earliestDate);
+    range.latest = formatDate(latestDate);
+    var toSend = {data:posts, tags:tags, range:range};
     res.send(toSend);
   })
+});
+app.get('/collections/:id', isAuthenticated, function(req,res, next){
+  console.log('yo');
+  Collection.findById(req.params.id, function(err, collection){
+    console.log(collection);
+    res.send([]);
+    
+  });
+});
+// might want to add one more thing to check that the user owns the collection
+app.get('/collections', isAuthenticated, function(req, res) {
+  // search db for all collections belonging to the authenticated user, and return
+  var user = req.user;
+  Collection.find(user.collections, function(err, collections){
+    if(!err){ res.send(collections); }
+  });
+});
+app.post('/collections', isAuthenticated, function(req, res, next){
+  var collection = new Collection(req.body), user = req.user;
+
+  /*if(req.post) { /* add post to collection }*/
+  collection.user = user;
+
+  collection.save(function(err, post){
+
+    if(err){ return next(err); }
+    req.user.collections.push(collection);
+    req.user.save(function(err, user){
+      if(err){ return next(err); }
+      res.json(collection);
+    })
+  });
+});
+// route for adding a post to a collection... use some sort of find or create query w/ mongoose
+// app.put('/collection/:collection/post/:post', isAuthenticated, function(req, res, next){
+  // find the collection
+  // find or create the post
+  // add the post to the collection if it's not already in the collection
+// });
+// route for changing the name of a collection
+
+// route for deleting a collection.
+app.delete('collections/:id', isAuthenticated, function(req, res){
+
 })
 app.get('/api/feed', isAuthenticated, function(req, res) {
   var feedUrl = 'https://api.instagram.com/v1/users/self/feed';

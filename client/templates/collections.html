@@ -1,0 +1,11 @@
+<h1>My Collections</h1>
+<ul>
+  <li ng-repeat="collection in collections">
+    {{collection.name}} <!--({{collection.posts}} photos in collection)--> <a ng-click='editCollection(collection._id)'>edit</a>
+  </li>
+</ul>
+<h4>New Collection</h4>
+<form name="collectionForm" ng-submit="createCollection()" novalidate>
+  <input type="text" ng-model='name' placeholder='Name'>
+  <button type="submit" class="button" ng-disabled="collectionForm.$invalid">Create Collection</button>
+</form>

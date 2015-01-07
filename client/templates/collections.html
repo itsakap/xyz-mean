@@ -1,7 +1,7 @@
 <h1>My Collections</h1>
 <ul>
   <li ng-repeat="collection in collections">
-    {{collection.name}} <!--({{collection.posts}} photos in collection)--> <a ng-click='editCollection(collection._id)'>edit</a>
+    <a editable-text="collection.name">{{collection.name}}</a> <!--({{collection.posts}} photos in collection)-->
   </li>
 </ul>
 <h4>New Collection</h4>

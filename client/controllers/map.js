@@ -120,7 +120,7 @@ angular.module('xyz')
             }
           };
           $scope.map.center={latitude:lat,longitude:lng};
-          $scope.map.zoom = 13;
+          $scope.map.zoom = 12;
           for(post in body.data){
             body.data[post].click = function(marker,eventName,model){
               if($scope.currentPost.post != model) {
@@ -147,5 +147,6 @@ angular.module('xyz')
       belongings.forEach(function(post, index){
         $scope.rawPosts[post]['icon'] = $scope.altIcon;
       });
+      $scope.showWindow = false;
     }
   })

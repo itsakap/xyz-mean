@@ -1,5 +1,5 @@
 // app.js
-angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGmapgoogle-maps', 'mm.foundation', 'ngQuickDate'])
+angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGmapgoogle-maps', 'mm.foundation', 'ngQuickDate', 'xeditable'])
   .config(function($routeProvider, $authProvider) {
     $routeProvider
       .when('/', {
@@ -42,8 +42,11 @@ angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGm
       authorizationEndpoint: 'https://api.instagram.com/oauth/authorize'
     })
   })
-  .run(function($rootScope, $window, $auth) {
+  .run(function($rootScope, $window, $auth, editableOptions, editableThemes) {
     if ($auth.isAuthenticated()) {
       $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
     }
+    editableOptions.theme='default';
+    // editableThemes['default'].formTpl="<form class='left inline editable-wrap' role='form'></form>";
+    console.log(editableOptions.theme);
   })

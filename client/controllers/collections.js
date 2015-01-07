@@ -8,9 +8,9 @@ angular.module('xyz')
         console.log(data);
       })
     }
-    $scope.editCollection = function(id){
-      xyzAPI.editCollection(id).error(function(data){
-        console.log(data);
+    $scope.editCollection = function(id, name, coll){
+      xyzAPI.editCollection(id, name).success(function(updatedColl){
+        coll.name = updatedColl.name;
       })
     }
   });

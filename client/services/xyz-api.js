@@ -9,9 +9,8 @@ angular.module('xyz')
       createCollection:function(params){
         return $http.post(backendHost + 'collections', params);
       },
-      editCollection:function(id){
-        console.log(id);
-        return $http.get(backendHost + 'collections/' + id);
+      editCollection:function(id, name){
+        return $http.put(backendHost + 'collections/' + id, {name: name} );
       }
     };
   })

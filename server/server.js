@@ -243,7 +243,7 @@ app.get('/api/media/search/', checkForAuthentication, function(req, res) {
     var formatDate = function(date){
       var month = date.getMonth() + 1;
       var hour = date.getHours();
-      var minutes = date.getMinutes();
+      var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
       return month + '/' + date.getDate() + '/' + date.getFullYear() + ", " + hour + ":" + minutes;
     }
     range.earliest = formatDate(earliestDate);
@@ -252,12 +252,14 @@ app.get('/api/media/search/', checkForAuthentication, function(req, res) {
     res.send(toSend);
   })
 });
-app.get('/collections/:id', isAuthenticated, function(req,res, next){
-  console.log('yo');
+app.put('/collections/:id', isAuthenticated, function(req,res, next){
   Collection.findById(req.params.id, function(err, collection){
-    console.log(collection);
-    res.send([]);
-    
+    if(!err){
+      collection.name = req.body.name;
+      collection.save(function(err, coll){
+        res.json(coll);
+      })
+    }
   });
 });
 // might want to add one more thing to check that the user owns the collection

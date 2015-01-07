@@ -282,7 +282,10 @@ app.post('/collections', isAuthenticated, function(req, res, next){
     req.user.collections.push(collection);
     req.user.save(function(err, user){
       if(err){ return next(err); }
-      res.json(collection);
+      Collection.find(user.collections, function(err, collections){
+
+        if(!err) { res.json(collections); }
+      })
     })
   });
 });

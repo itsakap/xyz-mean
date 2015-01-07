@@ -4,13 +4,14 @@ angular.module('xyz')
       $scope.collections = collections;
       });
     $scope.createCollection = function(){
-      xyzAPI.createCollection({name: $scope.name}).error(function(data){
-        console.log(data);
+      xyzAPI.createCollection({name: $scope.name}).success(function(collections){
+        $scope.collections = collections;
       })
     }
-    $scope.editCollection = function(id, name, coll){
+    $scope.editCollection = function(id, name){
+      console.log('ctrl '+ id, name);
       xyzAPI.editCollection(id, name).success(function(updatedColl){
-        coll.name = updatedColl.name;
+        // xeditable is doing most of the callback work
       })
     }
   });

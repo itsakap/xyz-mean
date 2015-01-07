@@ -42,11 +42,12 @@ angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGm
       authorizationEndpoint: 'https://api.instagram.com/oauth/authorize'
     })
   })
+  // set currentUser, and configure editables
   .run(function($rootScope, $window, $auth, editableOptions, editableThemes) {
     if ($auth.isAuthenticated()) {
       $rootScope.currentUser = JSON.parse($window.localStorage.currentUser);
     }
     editableOptions.theme='default';
-    // editableThemes['default'].formTpl="<form class='left inline editable-wrap' role='form'></form>";
-    console.log(editableOptions.theme);
+    editableThemes['default'].submitTpl = "<button type='submit' class='fi fi-check'></button>";
+    editableThemes['default'].cancelTpl = "<button type='button' ng-click='$form.$cancel()' class='fi fi-x'>";
   })

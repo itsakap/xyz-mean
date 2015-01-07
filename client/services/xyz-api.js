@@ -10,6 +10,7 @@ angular.module('xyz')
         return $http.post(backendHost + 'collections', params);
       },
       editCollection:function(id, name){
+        console.log(id, name);
         return $http.put(backendHost + 'collections/' + id, {name: name} );
       }
     };

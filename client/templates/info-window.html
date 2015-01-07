@@ -1,5 +1,6 @@
-<div id='infobox'>
+<div id='infobox' ng-controller="boxCtrl">
   <!-- render done with ng-click until compiling this template with Foundation makes sense -->
+  <a ng-click="like(templateParameter)" ng-if="isAuthenticated()" class="fi fi-heart like"></a> <!-- also something to control color -->
   <img data-reveal-id="show-modal" src="{{templateParameter.post.mediaSmall}}" ng-click="templateParameter.click()">
   <div class='add-modal'>Click to enlarge</div>
   <div id="show-modal" class="reveal-modal medium bigInfoBox" data-reveal>

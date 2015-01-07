@@ -184,6 +184,13 @@ body{
     -webkit-box-shadow: 0 0  8px #000;
     box-shadow: 0 0 8px #000;
 }
+.like{
+  color:red;
+  position:absolute;
+  left:0.5em;
+  bottom:0.25em;
+  font-size: 1.5em
+}
 /*============================
 |                            |
 |    POST-DETAIL STYLING     |

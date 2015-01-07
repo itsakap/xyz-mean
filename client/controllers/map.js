@@ -1,11 +1,15 @@
 // map.js
 // THIS FILE IS WAY TOO BIG
 angular.module('xyz')
-  .controller('MapCtrl', function($scope, $modal, $log, searchOptions, Search, Posts, Tags){
+  .controller('MapCtrl', function($scope, $modal, $log, $auth, searchOptions, Search, Posts, Tags){
     $scope.posts = Posts;
     $scope.tags = Tags;
     $scope.loaded = true;
     $scope.grandma = true;
+    $scope.isAuthenticated = function(){
+      return $auth.isAuthenticated();
+    };
+
 
     $scope.icon = {
       url: 'images/marker.png',
@@ -132,6 +136,7 @@ angular.module('xyz')
             body.data[post]['icon'] = $scope.icon;
           }
           $scope.rawPosts = body.data;
+
           $scope.posts = Posts = Object.keys(body.data).map(function(v){return body.data[v]});
           $scope.tags = Tags = body.tags;
           $scope.range = body.range;
@@ -149,4 +154,5 @@ angular.module('xyz')
       });
       $scope.showWindow = false;
     }
+
   })

@@ -14,6 +14,9 @@ angular.module('xyz')
       },
       deleteCollection:function(id){
         return $http.delete(backendHost + 'collections/' + id);
+      },
+      likeMedia: function(id) {
+        return $http.post(backendHost + "api/like", {mediaId: id});
       }
     };
   })

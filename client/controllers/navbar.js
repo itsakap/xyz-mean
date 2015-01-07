@@ -12,7 +12,7 @@ angular.module("xyz")
       })
       .catch(function(response){
         console.log(response.data);
-        alert('something bad happened');
+        alert('Sign in to access extra features!');
       });
     
     };

@@ -298,9 +298,13 @@ app.post('/collections', isAuthenticated, function(req, res, next){
 // route for changing the name of a collection
 
 // route for deleting a collection.
-app.delete('collections/:id', isAuthenticated, function(req, res){
-
-})
+app.delete('/collections/:id', isAuthenticated, function(req, res){
+  var user = req.user;
+  Collection.findById(req.params.id).remove().exec();
+  Collection.find(user.collections, function(err, collections){
+    if(!err){ res.send(collections); }
+  })
+});
 app.get('/api/feed', isAuthenticated, function(req, res) {
   var feedUrl = 'https://api.instagram.com/v1/users/self/feed';
   var params = { access_token: req.user.accessToken };

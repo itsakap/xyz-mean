@@ -9,9 +9,13 @@ angular.module('xyz')
       })
     }
     $scope.editCollection = function(id, name){
-      console.log('ctrl '+ id, name);
       xyzAPI.editCollection(id, name).success(function(updatedColl){
         // xeditable is doing most of the callback work
-      })
+      });
+    }
+    $scope.deleteCollection = function(id){
+      xyzAPI.deleteCollection(id).success(function(collections){
+        $scope.collections = collections;
+      });
     }
   });

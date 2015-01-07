@@ -6,6 +6,19 @@ html, body{
 body{
   margin:0;
 }
+/*===========================
+|                           |
+|     NG-VIEW STYLINGS      |
+|                           |
+=============================*/
+
+.popover{
+  z-index: 40;
+  background:white;
+  margin:0 auto;
+  position: absolute;
+  top:75px;
+}
 
 
 /*===========================

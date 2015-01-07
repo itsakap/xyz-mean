@@ -1,7 +1,9 @@
+<a href="#" style='color:black' class="right fi fi-x"></a> 
 <h1>My Collections</h1>
 <ul>
   <li ng-repeat="collection in collections">
-    <a editable-text="collection.name" onbeforesave="editCollection(collection._id, $data)">{{collection.name}}</a> <!--({{collection.posts}} photos in collection)--> 
+    <a editable-text="collection.name" onbeforesave="editCollection(collection._id, $data)">{{collection.name}}</a> <!--({{collection.posts}} photos in collection)-->
+    <a ng-click="deleteCollection(collection._id)" class="fi fi-x" style="color:red"></a>
   </li>
 </ul>
 <h4>New Collection</h4>

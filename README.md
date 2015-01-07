@@ -1,7 +1,7 @@
 what to do, what to do...
 
-- hashtags
-- oauth stuff: favorites, collections
+- add photo to my collection
+- deploy!
 
 what might be fun to try...
 

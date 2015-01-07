@@ -210,7 +210,6 @@ app.get('/api/media/search/', checkForAuthentication, function(req, res) {
                  distance: req.query.dist || 5000,
                  count: req.query.maxResults || 100 };
   request.get({ url: mediaUrl, qs: params, json: true }, function(error, response, body) {
-
     var posts = {}, tags={}, range = {earliest: Infinity, latest: 0};
     body.data.forEach(function(post, index){
       var caption = post.caption || {text:''};
@@ -222,7 +221,8 @@ app.get('/api/media/search/', checkForAuthentication, function(req, res) {
           mediaSmall: post.images.thumbnail.url,
           mediaLarge: post.images.standard_resolution.url,
           caption: caption.text,
-          link: post.link
+          link: post.link,
+          liked: post.user_has_liked
         };
         if(range.earliest > parseInt(post.created_time)) {range.earliest = parseInt(post.created_time);}
         if(range.latest < parseInt(post.created_time)) {range.latest = parseInt(post.created_time);}

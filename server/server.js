@@ -273,18 +273,43 @@ app.get('/collections', isAuthenticated, function(req, res) {
 app.get('/collections/:id', isAuthenticated, function(req, res){
   Collection.findById(req.params.id, function(err, coll){
     if(!err){
-      console.log(coll.posts);
-      var toSend = {}
+      var toSend = {}, tags = {}, range = {earliest: Infinity, latest: 0};
       Post.find(coll.posts, function(err, posts){
         if(!err){
+          var stop = posts.length-1;
           posts.forEach(function(post, index){
-            //make an api call for each instagram id
-            var mediaUrl = 'https://api.instagram.com/v1/media/' + post.instagramId;
-            var params = { access_token: req.user.accessToken };
-            request.get({ url:mediaUrl, qs: params, json: true }, function(error, response, body){
-              console.log(body)
-            })
-          })
+            if(post){
+              //make an api call for each instagram id
+              var mediaUrl = 'https://api.instagram.com/v1/media/' + post.instagramId;
+              var params = { access_token: req.user.accessToken };
+              request.get({ url:mediaUrl, qs: params, json: true }, function(error, response, body){
+                var toPush = body.data;
+                var caption = toPush.caption || {text:''};
+                toSend[toPush.id] = {
+                  idKey: toPush.id,
+                  latitude: toPush.location.latitude,
+                  longitude: toPush.location.longitude,
+                  mediaSmall: toPush.images.thumbnail.url,
+                  mediaLarge: toPush.images.standard_resolution.url,
+                  caption: caption.text,
+                  link: toPush.link,
+                  liked: toPush.user_has_liked
+                };
+                if(range.earliest > parseInt(toPush.created_time)) {range.earliest = parseInt(toPush.created_time);}
+                if(range.latest < parseInt(toPush.created_time)) {range.latest = parseInt(toPush.created_time);}
+                toPush.tags.forEach(function(tag, index){
+                  // the 'tag' key is associated with a count (# of posts the tag appears in), AND reference to the post
+                  if(tags[tag] != undefined){
+                    tags[tag]['count'] += 1;
+                    tags[tag]['posts'].push(post.id);
+                  }
+                  else tags[tag] = {count: 1, posts: [post.id]};
+
+                })
+                if(index==stop){ console.log("WHATSUP BABY", {posts:toSend, tags:tags, range:range}) }
+              })
+            }
+          });
         }
       })
 

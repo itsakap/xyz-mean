@@ -17,6 +17,12 @@ angular.module('xyz')
       },
       likeMedia: function(id) {
         return $http.post(backendHost + "api/like", {mediaId: id});
+      },
+      addToCollection: function(id, postId){
+        return $http.put(backendHost + "collection/"+id+"/post", {instagramId: postId});
+      },
+      viewCollection: function(id){
+        return $http.get(backendHost + "collections/"+id)
       }
     };
   })

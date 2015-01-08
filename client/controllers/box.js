@@ -1,8 +1,18 @@
 // box.js
 angular.module('xyz')
-  .controller('boxCtrl', function($scope, $auth, xyzAPI){
-    // $scope.hasLiked = $scope.$parent.parameter.post.liked;
-    
+  .controller('boxCtrl', function($scope, $auth, xyzAPI, editableOptions, editableThemes){
+    $scope.post = {collection: ''};
+    $scope.getCollections= function(){
+      xyzAPI.getCollections().success(function(collections){
+        $scope.collections = collections;
+      });
+    }
+    $scope.addToCollection=function(id){
+      var post = $scope.$parent.parameter.post;
+      xyzAPI.addToCollection(id, post.idKey).success(function(collection){
+        alert('added post to ' + collection.name);
+      });
+    }
     $scope.isAuthenticated = function(){
       return $auth.isAuthenticated();
     };

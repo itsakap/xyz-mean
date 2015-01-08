@@ -270,6 +270,27 @@ app.get('/collections', isAuthenticated, function(req, res) {
     if(!err){ res.send(collections); }
   });
 });
+app.get('/collections/:id', isAuthenticated, function(req, res){
+  Collection.findById(req.params.id, function(err, coll){
+    if(!err){
+      console.log(coll.posts);
+      var toSend = {}
+      Post.find(coll.posts, function(err, posts){
+        if(!err){
+          posts.forEach(function(post, index){
+            //make an api call for each instagram id
+            var mediaUrl = 'https://api.instagram.com/v1/media/' + post.instagramId;
+            var params = { access_token: req.user.accessToken };
+            request.get({ url:mediaUrl, qs: params, json: true }, function(error, response, body){
+              console.log(body)
+            })
+          })
+        }
+      })
+
+    }
+  })
+});
 app.post('/collections', isAuthenticated, function(req, res, next){
   var collection = new Collection(req.body), user = req.user;
 
@@ -288,6 +309,24 @@ app.post('/collections', isAuthenticated, function(req, res, next){
       })
     })
   });
+});
+app.put('/collection/:id/post', isAuthenticated, function(req, res, next){
+  Collection.findById(req.params.id, function(err, collection){
+    Post.findOne({instagramId: req.body.instagramId}, function(err, post){
+      if(!post){
+        post = new Post(req.body);
+      }
+      post.save(function(err, po){
+        collection.posts.push(post);
+        collection.save(function(err, coll){
+          if(!err) { res.json(coll); }
+        })
+      });
+
+    })
+    // , user = req.user;
+    
+  })
 });
 // route for adding a post to a collection... use some sort of find or create query w/ mongoose
 // app.put('/collection/:collection/post/:post', isAuthenticated, function(req, res, next){

@@ -57,7 +57,7 @@
         <img src="images/preloader.gif" style="position:absolute; top:50%">
       </div>
       <span ng-show="showDates" class="min-time" ng-bind="rangeResults.message"></span>
-      <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" control="map.control" options="options" styles="map.styles">
+      <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" control="map.control" options="options" styles="map.styles" bounds="bounds">
 
         <ui-gmap-search-box parentdiv="'search-box'"template="searchbox.template" events="searchbox.events"></ui-gmap-search-box>
         <!--<ui-gmap-circle ng-repeat="c in circles track by c.id" center="map.center" stroke="c.stroke" fill="c.fill" radius="c.radius" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable">

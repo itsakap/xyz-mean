@@ -97,6 +97,12 @@ angular.module('xyz')
         send.maxTime -= 0, send.maxTime /= 1000;
       }
       Search.go(send).success(function(body){
+        $scope.map.center={latitude:lat,longitude:lng};
+        $scope.populateMap(body);
+      });
+    };
+    $scope.populateMap = function(body){
+        if($scope.loaded) { $scope.loaded = false }
         if(Object.keys(body.data).length == 0){alert('No results found. Try searching a more populated or more specific area.');}
         else{
           $scope.posts=[], $scope.showWindow = false;
@@ -123,9 +129,10 @@ angular.module('xyz')
               })
             }
           };
-          $scope.map.center={latitude:lat,longitude:lng};
-          $scope.map.zoom = 12;
+          // $scope.map.zoom = 12;
+          var bounds = new google.maps.LatLngBounds();
           for(post in body.data){
+            bounds.extend(new google.maps.LatLng(body.data[post].latitude, body.data[post].longitude));
             body.data[post].click = function(marker,eventName,model){
               if($scope.currentPost.post != model) {
                 $scope.currentPost.post = model;
@@ -135,6 +142,9 @@ angular.module('xyz')
             };
             body.data[post]['icon'] = $scope.icon;
           }
+
+          $scope.bounds = {northeast: {latitude: bounds.getNorthEast().k, longitude: bounds.getNorthEast().D}, southwest: {latitude: bounds.getSouthWest().k, longitude: bounds.getSouthWest().D}};
+          // $scope.map.zoom -= 1;
           $scope.rawPosts = body.data;
 
           $scope.posts = Posts = Object.keys(body.data).map(function(v){return body.data[v]});
@@ -146,8 +156,8 @@ angular.module('xyz')
         }
         $scope.loaded = true;
         angular.element(document.querySelector('#nav-container')).removeClass('expanded');
-      });
-    };
+
+    }
     $scope.showTag = function(belongings) {
       belongings.forEach(function(post, index){
         $scope.rawPosts[post]['icon'] = $scope.altIcon;

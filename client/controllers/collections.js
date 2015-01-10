@@ -9,8 +9,11 @@ angular.module('xyz')
       })
     }
     $scope.viewCollection = function(id){
-      xyzAPI.viewCollection(id).success(function(posts){
-        console.log(posts);
+      var mapScope = $scope.$parent;
+      mapScope.loaded = false;
+      xyzAPI.viewCollection(id).success(function(response){
+        mapScope.populateMap(response);
+
       })
     }
     $scope.editCollection = function(id, name){
@@ -26,6 +29,6 @@ angular.module('xyz')
     $scope.logout = function(){
       $auth.logout();
       $scope.$parent.showWindow=false;
-      delete $window.localStorage.currentUser;
+      delete $window.localStorage;
     }
   });

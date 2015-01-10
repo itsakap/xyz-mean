@@ -49,7 +49,11 @@ gulp.task('complexity', function() {
 gulp.task('styles', function() {
   gulp.src([
     // 'client/css/sweet-alert.css',
-    'client/css/custom.css'
+    'client/css/custom.css',
+    'client/css/foundation-icons.css',
+    'client/css/foundation.css',
+    'client/css/normalize.css',
+    'client/css/ng-quick-date.plus-default-theme.css'
   ])
     .pipe(concat('styles.min.css'))
     .pipe(csso())

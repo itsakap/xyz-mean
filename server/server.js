@@ -211,44 +211,46 @@ app.get('/api/media/search/', checkForAuthentication, function(req, res) {
                  count: req.query.maxResults || 100 };
   request.get({ url: mediaUrl, qs: params, json: true }, function(error, response, body) {
     var posts = {}, tags={}, range = {earliest: Infinity, latest: 0};
-    body.data.forEach(function(post, index){
-      var caption = post.caption || {text:''};
-      if(post.type == 'image'){
-        posts[post.id] = {
-          idKey: post.id,
-          latitude: post.location.latitude,
-          longitude: post.location.longitude,
-          mediaSmall: post.images.thumbnail.url,
-          mediaLarge: post.images.standard_resolution.url,
-          caption: caption.text,
-          link: post.link,
-          liked: post.user_has_liked
-        };
-        if(range.earliest > parseInt(post.created_time)) {range.earliest = parseInt(post.created_time);}
-        if(range.latest < parseInt(post.created_time)) {range.latest = parseInt(post.created_time);}
-        post.tags.forEach(function(tag, index){
-          // the 'tag' key is associated with a count (# of posts the tag appears in), AND reference to the post
-          if(tags[tag] != undefined){
-            tags[tag]['count'] += 1;
-            tags[tag]['posts'].push(post.id);
-          }
-          else tags[tag] = {count: 1, posts: [post.id]};
+    if(body.data != undefined){
+      body.data.forEach(function(post, index){
+        var caption = post.caption || {text:''};
+        if(post.type == 'image'){
+          posts[post.id] = {
+            idKey: post.id,
+            latitude: post.location.latitude,
+            longitude: post.location.longitude,
+            mediaSmall: post.images.thumbnail.url,
+            mediaLarge: post.images.standard_resolution.url,
+            caption: caption.text,
+            link: post.link,
+            liked: post.user_has_liked
+          };
+          if(range.earliest > parseInt(post.created_time)) {range.earliest = parseInt(post.created_time);}
+          if(range.latest < parseInt(post.created_time)) {range.latest = parseInt(post.created_time);}
+          post.tags.forEach(function(tag, index){
+            // the 'tag' key is associated with a count (# of posts the tag appears in), AND reference to the post
+            if(tags[tag] != undefined){
+              tags[tag]['count'] += 1;
+              tags[tag]['posts'].push(post.id);
+            }
+            else tags[tag] = {count: 1, posts: [post.id]};
 
-        })
+          })
+        }
+      });
+      //convert epochs to dates before sending
+      earliestDate = new Date(range.earliest*1000);
+      latestDate = new Date(range.latest*1000);
+      var formatDate = function(date){
+        var month = date.getMonth() + 1;
+        var hour = date.getHours();
+        var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+        return month + '/' + date.getDate() + '/' + date.getFullYear() + ", " + hour + ":" + minutes;
       }
-    });
-    //convert epochs to dates before sending
-    earliestDate = new Date(range.earliest*1000);
-    latestDate = new Date(range.latest*1000);
-    var formatDate = function(date){
-      var month = date.getMonth() + 1;
-      var hour = date.getHours();
-      var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-      return month + '/' + date.getDate() + '/' + date.getFullYear() + ", " + hour + ":" + minutes;
+      range.earliest = formatDate(earliestDate);
+      range.latest = formatDate(latestDate);
+      var toSend = {data:posts, tags:tags, range:range};
     }
-    range.earliest = formatDate(earliestDate);
-    range.latest = formatDate(latestDate);
-    var toSend = {data:posts, tags:tags, range:range};
     res.send(toSend);
   })
 });
@@ -266,50 +268,127 @@ app.put('/collections/:id', isAuthenticated, function(req,res, next){
 app.get('/collections', isAuthenticated, function(req, res) {
   // search db for all collections belonging to the authenticated user, and return
   var user = req.user;
-  Collection.find(user.collections, function(err, collections){
+  Collection.find({'_id': {$in:user.collections}}, function(err, collections){
     if(!err){ res.send(collections); }
   });
 });
 app.get('/collections/:id', isAuthenticated, function(req, res){
   Collection.findById(req.params.id, function(err, coll){
     if(!err){
+
       var toSend = {}, tags = {}, range = {earliest: Infinity, latest: 0};
-      Post.find(coll.posts, function(err, posts){
+      Post.find({
+        '_id':{$in: coll.posts}}, function(err, posts){
         if(!err){
+          var i = 0;
           var stop = posts.length-1;
-          posts.forEach(function(post, index){
-            if(post){
-              //make an api call for each instagram id
+          var iter = function(){
+            if(posts[i]){
+              var post = posts[i];
               var mediaUrl = 'https://api.instagram.com/v1/media/' + post.instagramId;
               var params = { access_token: req.user.accessToken };
               request.get({ url:mediaUrl, qs: params, json: true }, function(error, response, body){
-                var toPush = body.data;
-                var caption = toPush.caption || {text:''};
-                toSend[toPush.id] = {
-                  idKey: toPush.id,
-                  latitude: toPush.location.latitude,
-                  longitude: toPush.location.longitude,
-                  mediaSmall: toPush.images.thumbnail.url,
-                  mediaLarge: toPush.images.standard_resolution.url,
-                  caption: caption.text,
-                  link: toPush.link,
-                  liked: toPush.user_has_liked
-                };
-                if(range.earliest > parseInt(toPush.created_time)) {range.earliest = parseInt(toPush.created_time);}
-                if(range.latest < parseInt(toPush.created_time)) {range.latest = parseInt(toPush.created_time);}
-                toPush.tags.forEach(function(tag, index){
-                  // the 'tag' key is associated with a count (# of posts the tag appears in), AND reference to the post
-                  if(tags[tag] != undefined){
-                    tags[tag]['count'] += 1;
-                    tags[tag]['posts'].push(post.id);
-                  }
-                  else tags[tag] = {count: 1, posts: [post.id]};
+                if(body.data != undefined) {
+                  var toPush = body.data;
+                  var caption = toPush.caption || {text:''};
+                  toSend[toPush.id] = {
+                    idKey: toPush.id,
+                    latitude: toPush.location.latitude,
+                    longitude: toPush.location.longitude,
+                    mediaSmall: toPush.images.thumbnail.url,
+                    mediaLarge: toPush.images.standard_resolution.url,
+                    caption: caption.text,
+                    link: toPush.link,
+                    liked: toPush.user_has_liked
+                  };
+                  if(range.earliest > parseInt(toPush.created_time)) {range.earliest = parseInt(toPush.created_time);}
+                  if(range.latest < parseInt(toPush.created_time)) {range.latest = parseInt(toPush.created_time);}
+                  toPush.tags.forEach(function(tag, index){
+                    // the 'tag' key is associated with a count (# of posts the tag appears in), AND reference to the post
+                    if(tags[tag] != undefined){
+                      tags[tag]['count'] += 1;
+                      tags[tag]['posts'].push(post.id);
+                    }
+                    else tags[tag] = {count: 1, posts: [post.id]};
 
-                })
-                if(index==stop){ console.log("WHATSUP BABY", {posts:toSend, tags:tags, range:range}) }
+                  })
+                }
+
+                if(i==stop){
+                  earliestDate = new Date(range.earliest*1000);
+                  latestDate = new Date(range.latest*1000);
+                  var formatDate = function(date){
+                    var month = date.getMonth() + 1;
+                    var hour = date.getHours();
+                    var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+                    return month + '/' + date.getDate() + '/' + date.getFullYear() + ", " + hour + ":" + minutes;
+                  }
+                  range.earliest = formatDate(earliestDate);
+                  range.latest = formatDate(latestDate);
+                  var schwa = {data:toSend, tags:tags, range:range};
+                  res.send(schwa);
+                }
+                else {i+= 1; iter();}
               })
             }
-          });
+          };
+
+          iter()
+
+
+
+
+
+
+          // posts.forEach(function(post, index){
+          //   if(post){
+          //     //make an api call for each instagram id
+          //     var mediaUrl = 'https://api.instagram.com/v1/media/' + post.instagramId;
+          //     var params = { access_token: req.user.accessToken };
+          //     request.get({ url:mediaUrl, qs: params, json: true }, function(error, response, body){
+          //       if(body.data != undefined) {
+          //         var toPush = body.data;
+          //         var caption = toPush.caption || {text:''};
+          //         toSend[toPush.id] = {
+          //           idKey: toPush.id,
+          //           latitude: toPush.location.latitude,
+          //           longitude: toPush.location.longitude,
+          //           mediaSmall: toPush.images.thumbnail.url,
+          //           mediaLarge: toPush.images.standard_resolution.url,
+          //           caption: caption.text,
+          //           link: toPush.link,
+          //           liked: toPush.user_has_liked
+          //         };
+          //         if(range.earliest > parseInt(toPush.created_time)) {range.earliest = parseInt(toPush.created_time);}
+          //         if(range.latest < parseInt(toPush.created_time)) {range.latest = parseInt(toPush.created_time);}
+          //         toPush.tags.forEach(function(tag, index){
+          //           // the 'tag' key is associated with a count (# of posts the tag appears in), AND reference to the post
+          //           if(tags[tag] != undefined){
+          //             tags[tag]['count'] += 1;
+          //             tags[tag]['posts'].push(post.id);
+          //           }
+          //           else tags[tag] = {count: 1, posts: [post.id]};
+
+          //         })
+          //       }
+
+          //         if(index==stop){
+          //           earliestDate = new Date(range.earliest*1000);
+          //           latestDate = new Date(range.latest*1000);
+          //           var formatDate = function(date){
+          //             var month = date.getMonth() + 1;
+          //             var hour = date.getHours();
+          //             var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
+          //             return month + '/' + date.getDate() + '/' + date.getFullYear() + ", " + hour + ":" + minutes;
+          //           }
+          //           range.earliest = formatDate(earliestDate);
+          //           range.latest = formatDate(latestDate);
+          //           var schwa = {data:toSend, tags:tags, range:range};
+          //           res.send(schwa);
+          //         }
+          //     })
+          //   }
+          // });
         }
       })
 

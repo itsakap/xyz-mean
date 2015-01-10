@@ -1,0 +1,6 @@
+<div id="news_strip" ng-init='init()' ng-style="{'margin-left': get_news_right($index)}" ng-mouseover="conf.news_move_flag=false" ng-mouseout="conf.news_move_flag=true">
+    <span ng-repeat="(tag, val) in tags track by $index"  id="news_{{$index}}" rel="nofollow" target="_blank">
+        <a ng-click="showTag(val.posts)">#{{tag}}</a> ({{val.count}})&nbsp;&nbsp;&nbsp;
+    </span>
+</div>
+

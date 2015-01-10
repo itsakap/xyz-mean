@@ -1,0 +1,109 @@
+<!doctype html>
+<html ng-app="xyz" ng-controller="MapCtrl">
+	<head>
+    <title>XYZ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="minimal-ui, width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="//code.ionicframework.com/ionicons/1.5.2/css/ionicons.min.css">
+    <!-- <link rel="stylesheet" href="css/normalize.css"> -->
+    <!-- <link rel="stylesheet" href="css/foundation.css"> -->
+    <!-- <link rel="stylesheet" href="css/foundation-icons.css"> -->
+    <!-- <link rel="stylesheet" href="css/ng-quick-date-plus-default-theme.css"> -->
+    <!-- <link rel="stylesheet" href="css/custom.css"> -->
+    <link rel="stylesheet" href="css/styles.min.css">
+	</head>
+  <body>
+    <!-- ----------------------
+    |                          |
+    |          NAVBAR          |
+    |                          |
+    ------------------------- -->
+    <div class="fixed">
+        <div style='z-index:10' ng-controller="NavbarCtrl" ng-include="'templates/navbar.html'"></div>
+        <div style="z-index:10; height:30px; background: #333300;" ng-controller="TagsCtrl" ng-include="'templates/tags.html'"></div>
+    </div>
+    <div ng-view class="popover columns large-8 large-offset-2 medium-8 medium-offset-2 small-8 small-offset-2"></div>
+    <!-- <div ng-controller="TagsCtrl"> -->
+      <!-- tags partial goes here -->
+    <!-- </div> -->
+    <div style="height:100%; position:relative; top:75px;">
+          <!-- move these templates to the directory if possible -->
+      <script type="text/ng-template" id="searchbox.tpl.html">
+        <input type="text" placeholder="Location Search" class="controls" id="pac-input">
+      </script>
+      <script type="text/ng-template" id="search-options.html">
+        <h2>Search Options</h2>
+        <p>
+          <label><b>Search for photos uploaded after</b></label>
+          <quick-datepicker ng-model='searchOptions.minTime'></quick-datepicker>
+        </p>
+        <p>
+          <label><b>and before</b></label>
+          <quick-datepicker ng-model="searchOptions.maxTime"></quick-datepicker>
+        </p>
+
+        <input type="text" x-ng-modal='searchOptions.distance' placeholder="Radius in meters (5000 maximum and default)">
+        <input type="text" x-ng-modal='searchOptions.maxResults' placeholder="Max Results (100 maximum and default)">
+        <a class="close-reveal-modal" ng-click="close()">&#215;</a>
+      </script>
+      <script type="text/ng-template" id="post-detail.html">
+        <a href="{{currentPost.post.link}}" target="_blank"><img ng-src="{{currentPost.post.mediaLarge}}"></a>
+        <p class="caption">{{currentPost.post.caption}}</p>
+        <a class="close-reveal-modal" ng-click='close()'>&#215;</a>
+      </script>
+      <div style="position:absolute; z-index:20; width:100%; height:100%; text-align:center; background:rgba(0,0,0,0.7)" ng-class="{loaded:loaded}">
+        <!-- loading circle thang goes in the middle -->
+        <img src="images/preloader.gif" style="position:absolute; top:50%">
+      </div>
+      <span ng-show="showDates" class="min-time" ng-bind="rangeResults.message"></span>
+      <ui-gmap-google-map center="map.center" zoom="map.zoom" draggable="true" control="map.control" options="options" styles="map.styles" bounds="bounds">
+
+        <ui-gmap-search-box parentdiv="'search-box'"template="searchbox.template" events="searchbox.events"></ui-gmap-search-box>
+        <!--<ui-gmap-circle ng-repeat="c in circles track by c.id" center="map.center" stroke="c.stroke" fill="c.fill" radius="c.radius" visible="c.visible" geodesic="c.geodesic" editable="c.editable" draggable="c.draggable" clickable="c.clickable">
+        </ui-gmap-circle>-->
+        <ui-gmap-markers models="posts" doRebuildAll="true" coords="'self'" icon="'icon'" idKey="'idKey'" click="'click'">
+          
+        </ui-gmap-markers>
+        <ui-gmap-window
+            coords="currentPost.coords"
+            templateUrl="'templates/info-window.html'"
+            templateParameter="currentPost"
+            closeClick="infoWindow.closeClick"
+            options='infoWindow.options'
+            show = 'showWindow'
+            >
+        </ui-gmap-window>
+      </ui-gmap-google-map>
+    </div>
+    <!-- these scripts can be instantiated better -->
+   <!-- <script src='app.min.js'></script>   --> 
+   
+ 
+    <script src="vendor/angular.js"></script>
+    <script src="vendor/angular-route.js"></script>
+    <script src="vendor/angular-messages.js"></script>
+    <script src="vendor/satellizer.js"></script>
+    <script src='//maps.googleapis.com/maps/api/js?sensor=false&libraries=geometry,places'></script>
+    <script src="//pineconellc.github.io/angular-foundation/mm-foundation-tpls-0.5.1.js"></script>
+    <script src="vendor/lodash.js"></script>
+    <script src="vendor/angular-google-maps.min.js"></script>
+    <script src="vendor/resource.js"></script>
+    <script src="vendor/ng-quick-date.js"></script>
+    <script src="vendor/xeditable.js"></script>
+    <script src="app.js"></script>
+    <script src="services/search-options.js"></script>
+    <script src="services/search.js"></script>
+    <script src="services/posts.js"></script>
+    <script src="services/tags.js"></script>
+    <script src="services/xyz-api.js"></script>
+    <script src="controllers/map.js"></script>
+    <script src='controllers/home.js'></script>
+    <script src='controllers/box.js'></script>
+    <script src="controllers/navbar.js"></script>
+    <script src="controllers/post-detail.js"></script>
+    <script src='controllers/collections.js'></script>
+    <script src="controllers/tags.js"></script>
+
+	</body>
+</html>

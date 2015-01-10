@@ -1,0 +1,15 @@
+<a href="#" style='color:black' class="right fi fi-x"></a> 
+<h1>My Collections</h1>
+<ul>
+  <li ng-repeat="collection in collections">
+    <a editable-text="collection.name" onbeforesave="editCollection(collection._id, $data)">{{collection.name}}</a> ({{collection.posts.length}} posts in collection)<!--({{collection.posts}} photos in collection)-->
+    <a href="#" ng-click="viewCollection(collection._id)">(view)</a>
+    <a ng-click="deleteCollection(collection._id)" class="fi fi-x" style="color:red"></a>
+  </li>
+</ul>
+<h4>New Collection</h4>
+<form name="collectionForm" ng-submit="createCollection()" novalidate>
+  <input type="text" ng-model='name' placeholder='Name'>
+  <button type="submit" class="button" ng-disabled="collectionForm.$invalid">Create Collection</button>
+</form>
+<a href="#" ng-click="logout()">Log Out</a>

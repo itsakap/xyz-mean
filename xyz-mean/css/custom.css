@@ -1,0 +1,226 @@
+html, body{
+  background:#555;
+}
+body{
+  margin:0;
+}
+/*===========================
+|                           |
+|     NG-VIEW STYLINGS      |
+|                           |
+=============================*/
+
+.popover{
+  z-index: 40;
+  background:white;
+  margin:0 auto;
+  position: absolute;
+  top:75px;
+}
+
+
+/*===========================
+|                           |
+|     MAP STYLINGS          |
+|                           |
+=============================*/
+.angular-google-map-container, .angular-google-map {
+  height:100%;
+  width:100%;
+}
+.angular-google-map-container img {
+  max-width: none;
+}
+.min-time{
+  position: absolute;
+  top:40px;
+  z-index:30;
+  left:50px;
+  color:#99cc00;
+}
+
+/*===========================
+|                           |
+|     NAVBAR STYLINGS       |
+|                           |
+=============================*/
+#nav-container{
+  width:100%;
+}
+.top-bar.expanded {
+  overflow: visible;
+  height:123px;
+  background: #333;
+}
+.top-bar .name h1 {
+    font-family:Monoton;
+    margin:0;
+    font-size:1.875em;
+    font-weight: normal;
+    color:deeppink;    
+    padding:0 0.5em;
+}
+#social {
+  color: white;
+  font-family: Condiment;
+}
+.name, #social, .icon-holder {
+  display:inline-block;
+}
+.icon-holder{
+  width:35px;
+  height:100%;
+  text-align: center;
+  margin: 0 0 0 1em;
+}
+#pac-nest{
+  height:100%;
+}
+#pac-input{
+  border-radius: 5px;
+}
+.icon-holder .fi {
+  cursor:pointer;
+  vertical-align: middle;
+  color:#ccc;
+  transition:font-size 0.5s, color 0.5s;
+  font-size:30px;
+  display:inline-block;
+  height:100%;
+
+}
+.icon-holder .fi:hover {
+  font-size:35px;
+  color:white;
+}
+#news_strip {
+  display: block;
+  height: 30px;
+  position: relative;
+  overflow: hidden;
+}
+
+#news_strip span {
+  display: inline;
+  color: #99CC00;
+  text-decoration: none;
+  margin-right: 5px;
+  z-index: 1;
+  /*position: absolute;*/
+  top: 0px;
+}
+
+#news_strip span a {
+  cursor: pointer;
+  display: inline;
+  color: #99CC00;
+  font-weight: bold;
+  padding-right: 5px;
+  z-index: 1;
+}
+
+#news_strip a span.date {
+  display: inline-block;
+  font-weight: normal;
+  color: #888888;
+}
+
+#news_strip a {
+  text-decoration: underline;
+}
+#news_strip a:hover{
+  color:#CCFF00;
+}
+
+/* The shadow DIVs of the sides are decorative and optional, but they add a very nice effect :) */
+
+#news_strip div.shadow{
+  position: absolute;
+  top: 0px;
+  width: 30px;
+  height: 100%;
+  z-index: 5;
+  background: #ffffff;
+}
+
+#news_strip div.shadow.left{
+  left: 0px;
+  -webkit-box-shadow: 10px 0px 10px #fff;
+  -moz-box-shadow: 10px 0px 10px #fff;
+  box-shadow: 10px 0px 10px #fff;
+}
+
+#news_strip div.shadow.right{
+  right: 0px;
+  -webkit-box-shadow: -10px 0px 10px #fff;
+  -moz-box-shadow: -10px 0px 10px #fff;
+  box-shadow: -10px 0px 10px #fff;
+}
+/*============================
+|                            |
+|    Editable Text Styling   |
+|                            |
+=============================*/
+
+.editable-wrap{display:inline-block;white-space:nowrap;margin:0}.editable-wrap .editable-controls,.editable-wrap .editable-error{margin-bottom:0}.editable-wrap .editable-controls>input,.editable-wrap .editable-controls>select,.editable-wrap .editable-controls>textarea{margin-bottom:0}.editable-wrap .editable-input{display:inline-block}.editable-buttons{display:inline-block;vertical-align:top}.editable-buttons button{margin-left:5px; padding:0.5rem 1rem;}.editable-input.editable-has-buttons{width:auto}.editable-bstime .editable-input input[type=text]{width:46px}.editable-bstime .well-small{margin-bottom:0;padding:10px}.editable-range output{display:inline-block;min-width:30px;vertical-align:top;text-align:center}.editable-color input[type=color]{width:50px}.editable-checkbox label span,.editable-checklist label span,.editable-radiolist label span{margin-left:7px;margin-right:10px}.editable-hide{display:none!important}.editable-click,a.editable-click{text-decoration:none;color:#428bca;border-bottom:dashed 1px #428bca}.editable-click:hover,a.editable-click:hover{text-decoration:none;color:#2a6496;border-bottom-color:#2a6496}.editable-empty,.editable-empty:hover,.editable-empty:focus,a.editable-empty,a.editable-empty:hover,a.editable-empty:focus{}
+/*============================
+|                            |
+|      INFOBOX STYLING       |
+|                            |
+=============================*/
+
+#infobox img{
+      border:2px solid white;
+      margin-bottom:0.5em;
+      width:100%;
+    }
+#infobox {
+    border:2px solid black;
+    margin-top: 8px;
+    background:rgba(64, 64, 64, 0.75);
+    color:#FFF;
+    font-family:Arial, Helvetica, sans-serif;
+    font-size:12px;
+    padding: 3em;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    text-shadow:0 -1px #000000;
+    -webkit-box-shadow: 0 0  8px #000;
+    box-shadow: 0 0 8px #000;
+}
+.add, .like{
+  position: absolute;
+  left:0.5em;
+  font-size:1.5em;
+}
+a.add{
+  color:lime;
+  top:0.6em;
+}
+.like{ bottom:0.25em; }
+.liked{ color:red; }
+.unliked{ color:#880000; }
+
+/*============================
+|                            |
+|    POST-DETAIL STYLING     |
+|                            |
+=============================*/
+.post-detail{
+  background:rgba(255,250,156, 0.75);
+  text-align: center;
+  padding-top:2.5em;
+}
+.post-detail img {
+  display:block;
+  margin:0 auto;
+  border:2px solid black;
+}
+.reveal-modal .close-reveal-modal{
+  color:#333;
+}
+
+.loaded{
+  display:none;
+}

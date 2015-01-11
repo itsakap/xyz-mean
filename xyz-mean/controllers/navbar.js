@@ -5,6 +5,7 @@ angular.module("xyz")
       return $auth.isAuthenticated();
     };
     $scope.instagramLogin = function(){
+      console.log($auth);
       $auth.authenticate('instagram')
       .then(function(response){
         $window.localStorage.currentUser = JSON.stringify(response.data.user);

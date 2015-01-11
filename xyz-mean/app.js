@@ -28,7 +28,7 @@ angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGm
       })
       .otherwise('/');
     var theFrontEnd = 'http://itsakap.com/xyz-mean';
-    var theHost = "https://frozen-chamber-6676.herokuapp.com";
+    var theHost = "https://lit-ridge-5274.herokuapp.com";
     console.log($authProvider);
     // $authProvider.loginUrl = theHost + '/auth/login';
     // $authProvider.signupUrl = theHost + '/register';
@@ -36,7 +36,7 @@ angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGm
       name: 'instagram',
       url: theHost + '/auth/instagram',
       redirectUri: theFrontEnd,
-      clientId: '92dcaae36dc646468fd7e9bb204aa535',
+      clientId: '077558afe95c4b83b77b8f9e2e02d072',
       requiredUrlParams: ['scope'],
       scope: ['likes'],
       scopeDelimiter: '+',

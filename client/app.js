@@ -27,15 +27,15 @@ angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGm
         controller: 'TagDetailCtrl'
       })
       .otherwise('/');
-    var theFrontEnd = 'http://localhost:8000/client';
-    var theHost = "http://localhost:3000";
+    var theFrontEnd = 'http://itsakap.com/xyz-mean';
+    var theHost = "https://lit-ridge-5274.herokuapp.com";
     // $authProvider.loginUrl = theHost + '/auth/login';
     // $authProvider.signupUrl = theHost + '/register';
     $authProvider.oauth2({
       name: 'instagram',
       url: theHost + '/auth/instagram',
       redirectUri: theFrontEnd,
-      clientId: '077558afe95c4b83b77b8f9e2e02d072',
+      clientId: 'e6c1b6c6ac66451c8b68ff39d0b6cf09',
       requiredUrlParams: ['scope'],
       scope: ['likes'],
       scopeDelimiter: '+',

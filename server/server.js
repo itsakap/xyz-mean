@@ -39,7 +39,7 @@ var corsOptions = {
   origin: process.env.origin || 'http://localhost:8000',
   credentials: true
 };
-
+console.log(corsOptions.origin);
 var oneMonth = 2628; // 2628 units of time evaluates to approx. one month
  
 app.set('port', process.env.PORT || 3000);
@@ -123,7 +123,10 @@ app.post("/register", function(req, res){
 });
 app.post('/auth/instagram', function(req, res) {
   var accessTokenUrl = 'https://api.instagram.com/oauth/access_token';
-
+  console.log('client id', req.body.clientId);
+  console.log('redirect ', req.body.redirectUri);
+  console.log('client secret ', req.body.clientSecret);
+  console.log('code ', req.body.code);
   var params = {
     client_id: req.body.clientId,
     redirect_uri: req.body.redirectUri,

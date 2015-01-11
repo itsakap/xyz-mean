@@ -1,7 +1,6 @@
-what to do, what to do...
+a fun way to view instagram photos, now in Angular & NodeJS.
 
-- add photo to my collection
-- deploy!
+- please see above for URL
 
 what might be fun to try...
 

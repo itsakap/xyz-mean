@@ -18,16 +18,16 @@ var banner = ['/**',
     ''].join('\n');
  
 gulp.task('minify', function() {
-    var templatesFilter = gulpFilter('clients/views/*.html');
+    var templatesFilter = gulpFilter('clients/templates/*.html');
  
     return gulp.src([
         'client/vendor/angular.js',
         'client/vendor/*.js',
         'client/app.js',
         'client/templates.js',
-        'client/controllers/*.js',
         'client/services/*.js',
-        'client/directives/*.js'
+        'client/directives/*.js',
+        'client/controllers/*.js'
     ])
         .pipe(templatesFilter)
         .pipe(templateCache({ root: 'templates', module: 'xyz' }))
@@ -36,7 +36,7 @@ gulp.task('minify', function() {
         .pipe(ngAnnotate())
         .pipe(uglify())
         .pipe(header(banner))
-        .pipe(gulp.dest('client'));
+        .pipe(gulp.dest('xyz-mean'));
 });
 gulp.task('complexity', function() {
     return gulp.src([

@@ -152,7 +152,7 @@ angular.module('xyz')
           $scope.range = body.range;
           $scope.grandma = true;
           $scope.showDates = true;
-          $scope.rangeResults = {message: "Search returned pictures taken between " + $scope.range.earliest + " and " + $scope.range.latest};
+          $scope.rangeResults = {message: "Pictures taken between " + $scope.range.earliest + " and " + $scope.range.latest};
         }
         $scope.loaded = true;
         angular.element(document.querySelector('#nav-container')).removeClass('expanded');

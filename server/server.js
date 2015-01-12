@@ -1,4 +1,5 @@
 // server.js
+require('newrelic');
 var bcrypt = require('bcryptjs');
 var bodyParser = require('body-parser');
 var cors = require('cors');

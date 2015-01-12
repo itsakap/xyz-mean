@@ -18,16 +18,16 @@ var banner = ['/**',
     ''].join('\n');
  
 gulp.task('minify', function() {
-    var templatesFilter = gulpFilter('clients/templates/*.html');
+    var templatesFilter = gulpFilter('xyz-means/templates/*.html');
  
     return gulp.src([
-        'client/vendor/angular.js',
-        'client/vendor/*.js',
-        'client/app.js',
-        'client/templates.js',
-        'client/services/*.js',
-        'client/directives/*.js',
-        'client/controllers/*.js'
+        'xyz-mean/vendor/angular.js',
+        'xyz-mean/vendor/*.js',
+        'xyz-mean/app.js',
+        'xyz-mean/templates.js',
+        'xyz-mean/services/*.js',
+        'xyz-mean/directives/*.js',
+        'xyz-mean/controllers/*.js'
     ])
         .pipe(templatesFilter)
         .pipe(templateCache({ root: 'templates', module: 'xyz' }))
@@ -40,40 +40,40 @@ gulp.task('minify', function() {
 });
 gulp.task('complexity', function() {
     return gulp.src([
-        '!client/vendor/*.*',
-        '!client/app.min.js',
-        'client/**/*.js'
+        '!xyz-mean/vendor/*.*',
+        '!xyz-mean/app.min.js',
+        'xyz-mean/**/*.js'
     ])
         .pipe(complexity());
 });
 gulp.task('styles', function() {
   gulp.src([
-    // 'client/css/sweet-alert.css',
-    'client/css/custom.css',
-    'client/css/foundation-icons.css',
-    'client/css/foundation.css',
-    'client/css/normalize.css',
-    'client/css/ng-quick-date.plus-default-theme.css'
+    // 'xyz-mean/css/sweet-alert.css',
+    'xyz-mean/css/custom.css',
+    'xyz-mean/css/foundation-icons.css',
+    'xyz-mean/css/foundation.css',
+    'xyz-mean/css/normalize.css',
+    'xyz-mean/css/ng-quick-date.plus-default-theme.css'
   ])
     .pipe(concat('styles.min.css'))
     .pipe(csso())
-    .pipe(gulp.dest('client/css'));
+    .pipe(gulp.dest('xyz-mean/css'));
 });
  
 gulp.task('recess', function() {
- gulp.src('client/css/custom.css')
+ gulp.src('xyz-mean/css/custom.css')
  .pipe(recess())
  .pipe(recess.reporter())
- .pipe(gulp.dest('client/css'));
+ .pipe(gulp.dest('xyz-mean/css'));
 });
 gulp.task('watch', function() {
-  gulp.watch(['client/css/*.css', '!client/css/styles.min.css'], ['styles']);
+  gulp.watch(['xyz-mean/css/*.css', '!xyz-mean/css/styles.min.css'], ['styles']);
   gulp.watch([
-    'client/app.js',
-    'client/services/*.js',
-    'client/directives/*.js',
-    'client/controllers/*.js',
-    'client/templates/*.html'
+    'xyz-mean/app.js',
+    'xyz-mean/services/*.js',
+    'xyz-mean/directives/*.js',
+    'xyz-mean/controllers/*.js',
+    'xyz-mean/templates/*.html'
   ], ['minify']);
 });
 gulp.task('default', ['watch', 'styles', 'minify']);

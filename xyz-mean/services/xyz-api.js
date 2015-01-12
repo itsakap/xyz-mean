@@ -1,7 +1,7 @@
 // xyz-api.js
 angular.module('xyz')
   .factory('xyzAPI', function($http){
-    var backendHost = "https://frozen-chamber-6676.herokuapp.com/";
+    var backendHost = "https://lit-ridge-5274.herokuapp.com/";
     return{
       getCollections:function(){
         return $http.get(backendHost + 'collections');

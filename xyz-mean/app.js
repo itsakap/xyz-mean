@@ -27,9 +27,8 @@ angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGm
         controller: 'TagDetailCtrl'
       })
       .otherwise('/');
-    var theFrontEnd = 'http://itsakap.com/xyz-mean';
+    var theFrontEnd = 'http://itsakap.com/xyz-mean/index.html';
     var theHost = "https://lit-ridge-5274.herokuapp.com";
-    console.log($authProvider);
     // $authProvider.loginUrl = theHost + '/auth/login';
     // $authProvider.signupUrl = theHost + '/register';
     $authProvider.oauth2({

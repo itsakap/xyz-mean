@@ -7,3 +7,7 @@ a fun way to view instagram photos, now in Angular & NodeJS.
 what might be fun to try...
 
 - choose btween album & map view
+
+other
+
+- special thanks to this guy --> https://hackhands.com/building-instagram-clone-angularjs-satellizer-nodejs-mongodb for an amazing tutorial and plugin

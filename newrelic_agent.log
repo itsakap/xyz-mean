@@ -1,0 +1,10 @@
+{"v":0,"level":30,"name":"newrelic","hostname":"Bird","pid":8538,"time":"2015-05-27T02:13:30.581Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"Bird","pid":8610,"time":"2015-05-27T02:13:43.840Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"Bird","pid":8610,"time":"2015-05-27T02:13:51.947Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/867903/applications/6541289","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"Bird","pid":8610,"time":"2015-05-27T02:13:51.948Z","msg":"Connected to collector-136.newrelic.com:443 with agent run ID 36689557729226100.","component":"collector_api"}
+{"v":0,"level":50,"name":"newrelic","hostname":"Bird","pid":8610,"time":"2015-05-27T15:37:16.994Z","msg":"Calling metric_data on New Relic failed unexpectedly. Data will be held until it can be submitted:","component":"collector_api","syscall":"getaddrinfo","errno":"ENOTFOUND","code":"ENOTFOUND"}
+{"v":0,"level":30,"name":"newrelic","hostname":"Bird","pid":8610,"time":"2015-05-27T15:37:16.998Z","msg":"Error on submission to New Relic (data held for redelivery):","syscall":"getaddrinfo","errno":"ENOTFOUND","code":"ENOTFOUND"}
+{"v":0,"level":30,"name":"newrelic","hostname":"Bird","pid":18453,"time":"2015-06-10T23:20:12.094Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"Bird","pid":18527,"time":"2015-06-10T23:20:26.400Z","msg":"Starting New Relic for Node.js connection process."}
+{"v":0,"level":30,"name":"newrelic","hostname":"Bird","pid":18527,"time":"2015-06-10T23:20:27.790Z","msg":"Reporting to: https://rpm.newrelic.com/accounts/867903/applications/6541289","component":"new_relic_response"}
+{"v":0,"level":30,"name":"newrelic","hostname":"Bird","pid":18527,"time":"2015-06-10T23:20:27.790Z","msg":"Connected to collector-136.newrelic.com:443 with agent run ID 36689557772034016.","component":"collector_api"}

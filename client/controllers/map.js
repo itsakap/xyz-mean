@@ -142,7 +142,7 @@ angular.module('xyz')
             };
             body.data[post]['icon'] = $scope.icon;
           }
-
+          console.log(bounds);
           $scope.bounds = {northeast: {latitude: bounds.getNorthEast().k, longitude: bounds.getNorthEast().D}, southwest: {latitude: bounds.getSouthWest().k, longitude: bounds.getSouthWest().D}};
           // $scope.map.zoom -= 1;
           $scope.rawPosts = body.data;

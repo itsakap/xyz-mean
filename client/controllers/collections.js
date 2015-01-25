@@ -1,6 +1,7 @@
 angular.module('xyz')
   .controller("CollectionsCtrl", function($scope, $auth, $window, $rootScope, xyzAPI){
     xyzAPI.getCollections().success(function(collections){
+      angular.element(document.querySelector('#nav-container')).removeClass('expanded');
       $scope.collections = collections;
     });
     $scope.createCollection = function(){

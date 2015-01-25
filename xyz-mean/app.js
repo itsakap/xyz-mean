@@ -1,5 +1,5 @@
 // app.js
-angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource','satellizer', 'uiGmapgoogle-maps', 'mm.foundation', 'ngQuickDate', 'xeditable'])
+angular.module('xyz', ['ngRoute', 'ngMessages', 'ngResource', 'satellizer', 'uiGmapgoogle-maps', 'mm.foundation', 'ngQuickDate', 'xeditable'])
   .config(function($routeProvider, $authProvider) {
     $routeProvider
       .when('/', {

@@ -155,7 +155,7 @@ app.post('/auth/instagram', function(req, res) {
        
             existingUser.email = localUser.email;
             existingUser.password = localUser.password;
-       
+            existingUser.picture = body.user.profile_picture;
             localUser.remove();
        
             existingUser.save(function() {
@@ -182,6 +182,7 @@ app.post('/auth/instagram', function(req, res) {
     } else { // Step 2b. Create a new user account or return an existing one.
       User.findOne({ instagramId: body.user.id }, function(err, existingUser) {
         if (existingUser) {
+          existingUser.picture = body.user.profile_picture;
           var token = createToken(existingUser);
           return res.send({ token: token, user: existingUser });
         }

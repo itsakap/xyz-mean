@@ -138,12 +138,12 @@ angular.module('xyz')
                 $scope.currentPost.post = model;
                 $scope.currentPost.coords = {latitude: model.latitude, longitude: model.longitude}
               }
+              
               $scope.showWindow = true;
             };
             body.data[post]['icon'] = $scope.icon;
           }
-
-          $scope.bounds = {northeast: {latitude: bounds.getNorthEast().k, longitude: bounds.getNorthEast().D}, southwest: {latitude: bounds.getSouthWest().k, longitude: bounds.getSouthWest().D}};
+          $scope.bounds = {northeast: {latitude: bounds.getNorthEast().lat(), longitude: bounds.getNorthEast().lng()}, southwest: {latitude: bounds.getSouthWest().lat(), longitude: bounds.getSouthWest().lng()}};
           // $scope.map.zoom -= 1;
           $scope.rawPosts = body.data;
 

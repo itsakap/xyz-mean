@@ -207,6 +207,16 @@ app.get('/api/media/search/', checkForAuthentication, function(req, res) {
   var mediaUrl = 'https://api.instagram.com/v1/media/search/';
   var accessToken;
   if (req.user){ accessToken = req.user.accessToken };
+
+
+
+  // timezone from req.query.lat, req.query.lng
+  // are we adjusting minTime and maxTime with respect to the time zone we are in?
+  // is the time stamp that is returned relative to user or to where photo was taken?
+
+
+
+  
   var params = { access_token: accessToken || process.env.XYZ_INSTAGRAM_ACCESS_TOKEN,
                  lat: req.query.lat,
                  lng: req.query.lng,
@@ -340,60 +350,6 @@ app.get('/collections/:id', isAuthenticated, function(req, res){
 
           iter()
 
-
-
-
-
-
-          // posts.forEach(function(post, index){
-          //   if(post){
-          //     //make an api call for each instagram id
-          //     var mediaUrl = 'https://api.instagram.com/v1/media/' + post.instagramId;
-          //     var params = { access_token: req.user.accessToken };
-          //     request.get({ url:mediaUrl, qs: params, json: true }, function(error, response, body){
-          //       if(body.data != undefined) {
-          //         var toPush = body.data;
-          //         var caption = toPush.caption || {text:''};
-          //         toSend[toPush.id] = {
-          //           idKey: toPush.id,
-          //           latitude: toPush.location.latitude,
-          //           longitude: toPush.location.longitude,
-          //           mediaSmall: toPush.images.thumbnail.url,
-          //           mediaLarge: toPush.images.standard_resolution.url,
-          //           caption: caption.text,
-          //           link: toPush.link,
-          //           liked: toPush.user_has_liked
-          //         };
-          //         if(range.earliest > parseInt(toPush.created_time)) {range.earliest = parseInt(toPush.created_time);}
-          //         if(range.latest < parseInt(toPush.created_time)) {range.latest = parseInt(toPush.created_time);}
-          //         toPush.tags.forEach(function(tag, index){
-          //           // the 'tag' key is associated with a count (# of posts the tag appears in), AND reference to the post
-          //           if(tags[tag] != undefined){
-          //             tags[tag]['count'] += 1;
-          //             tags[tag]['posts'].push(post.id);
-          //           }
-          //           else tags[tag] = {count: 1, posts: [post.id]};
-
-          //         })
-          //       }
-
-          //         if(index==stop){
-          //           earliestDate = new Date(range.earliest*1000);
-          //           latestDate = new Date(range.latest*1000);
-          //           var formatDate = function(date){
-          //             var month = date.getMonth() + 1;
-          //             var hour = date.getHours();
-          //             var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-          //             return month + '/' + date.getDate() + '/' + date.getFullYear() + ", " + hour + ":" + minutes;
-          //           }
-          //           range.earliest = formatDate(earliestDate);
-          //           range.latest = formatDate(latestDate);
-          //           var schwa = {data:toSend, tags:tags, range:range};
-          //           res.send(schwa);
-          //         }
-          //     })
-          //   }
-          // });
         }
       })
 
